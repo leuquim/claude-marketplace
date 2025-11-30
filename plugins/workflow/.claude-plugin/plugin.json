@@ -2,7 +2,7 @@
   "name": "workflow",
   "version": "1.0.0",
   "description": "Complete development workflow: define requirements, research codebase, plan implementation, execute with isolation, review with specialized agents, capture learnings",
-  "author": "mique",
+  "author": { "name": "leuquim" },
   "license": "MIT",
   "keywords": ["workflow", "development", "planning", "review", "agents"]
 }
