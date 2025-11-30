@@ -1,0 +1,8 @@
+{
+  "name": "core",
+  "version": "1.0.0",
+  "description": "Core utilities: git commit helper, prompt engineering, agent building, and slash command creation skills",
+  "author": "mique",
+  "license": "MIT",
+  "keywords": ["core", "git", "prompt", "agent", "meta"]
+}

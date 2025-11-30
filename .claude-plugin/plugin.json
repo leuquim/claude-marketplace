@@ -1,0 +1,8 @@
+{
+  "name": "mique-plugins",
+  "version": "0.1.0",
+  "description": "Personal Claude Code plugins collection",
+  "author": "mique",
+  "license": "MIT",
+  "keywords": ["productivity", "workflow"]
+}

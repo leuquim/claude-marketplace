@@ -1,0 +1,19 @@
+{
+  "name": "mique-plugins",
+  "owner": {
+    "name": "mique"
+  },
+  "description": "Personal Claude Code plugins for development workflows",
+  "plugins": [
+    {
+      "name": "workflow",
+      "description": "Complete development workflow: define, research, plan, work, review, compound. Includes semantic search via code-vector-cli.",
+      "source": "./plugins/workflow"
+    },
+    {
+      "name": "core",
+      "description": "Core utilities: git commit helper, prompt engineering, agent building, slash command creation.",
+      "source": "./plugins/core"
+    }
+  ]
+}
