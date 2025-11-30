@@ -8,12 +8,12 @@
     {
       "name": "workflow",
       "description": "Complete development workflow: define, research, plan, work, review, compound. Includes semantic search via code-vector-cli.",
-      "source": "github.com/leuquim/claude-marketplace/plugins/workflow"
+      "source": "./plugins/workflow"
     },
     {
       "name": "core",
       "description": "Core utilities: git commit helper, prompt engineering, agent building, slash command creation.",
-      "source": "github.com/leuquim/claude-marketplace/plugins/core"
+      "source": "./plugins/core"
     }
   ]
 }
