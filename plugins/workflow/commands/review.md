@@ -17,6 +17,7 @@ If scope is not clear from context, use AskUserQuestion:
 **Options:**
 - Recent changes (unstaged git diff)
 - Staged changes (git diff --cached)
+- Branch changes (compared to base branch)
 - Specific files/directory
 - Current work item (from `.docs/work/{slug}/`)
 
@@ -32,6 +33,14 @@ git diff --name-only
 **Staged changes:**
 ```bash
 git diff --cached --name-only
+```
+
+**Branch changes:**
+```bash
+# Detect base branch (main or master)
+git show-ref --verify --quiet refs/heads/main && echo main || echo master
+# Get files changed in current branch vs base
+git diff <base-branch>...HEAD --name-only
 ```
 
 **Work item:**
@@ -66,6 +75,7 @@ Analyze the file list and determine which agents are relevant:
 | **code-simplifier** | Always for `code`, `templates`. Skip for `styles`, `docs`, `config` only. |
 | **performance-oracle** | For `code` with loops, queries, or data processing. Include for `data` files. Skip for `styles`, `docs`, `config`, simple CRUD. |
 | **data-integrity-guardian** | Only when `data` files present (migrations, models, schemas, SQL). Skip otherwise. |
+| **frontend-quality-reviewer** | For frontend files (`*.jsx`, `*.tsx`, `*.vue`, `*.svelte`, or files in `components/`, `pages/`, `views/`). Skip for backend-only code. |
 
 #### Selection Logic
 
@@ -89,6 +99,9 @@ if 'data' in categories:
 
 if 'code' in categories and has_complex_logic(files):
     agents.append('performance-oracle')
+
+if is_frontend_code(files):  # .jsx, .tsx, .vue, .svelte, or in components/pages/views/
+    agents.append('frontend-quality-reviewer')
 
 # Minimum: at least security + simplifier for any code
 if len(agents) == 0 and has_any_code(files):
@@ -154,6 +167,17 @@ Focus on: transaction safety, referential integrity, migration risks, audit cove
 Return a structured data integrity report.
 ```
 
+**Agent: frontend-quality-reviewer** (if selected)
+```
+Review these frontend files for code quality:
+
+{file list}
+
+Focus on: component architecture, codebase pattern consistency, state management, render performance, error handling, side effects.
+
+Return a structured frontend quality report.
+```
+
 ### 5. Synthesize Findings
 
 Combine reports from all dispatched agents:
@@ -173,6 +197,7 @@ Combine reports from all dispatched agents:
 | Simplification | {n} | {n} | {n} | {n} | {n} |
 | Performance | {n} | {n} | {n} | {n} | {n} |
 | Data Integrity | {n} | {n} | {n} | {n} | {n} |
+| Frontend Quality | {n} | {n} | {n} | {n} | {n} |
 | **Total** | {n} | {n} | {n} | {n} | {n} |
 
 ## Critical & High Priority Issues
@@ -181,7 +206,7 @@ Combine reports from all dispatched agents:
 
 ### [{Severity}] {Issue Title}
 
-**Category:** {Security/Architecture/Simplification/Performance/Data}
+**Category:** {Security/Architecture/Simplification/Performance/Data/Frontend}
 **Location:** `file:line`
 **Description:** {issue}
 **Recommendation:** {fix}
