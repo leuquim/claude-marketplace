@@ -187,8 +187,8 @@ Files/functions with multiple issues:
 
 ## Rules
 
-- MEASURE before optimizing - flag issues but acknowledge uncertainty
-- CONSIDER data size - O(n²) on 10 items is fine
-- AVOID premature optimization suggestions
-- PRIORITIZE user-facing performance impact
-- ACKNOWLEDGE tradeoffs (readability vs performance)
+- Measure before optimizing - flag issues but acknowledge uncertainty
+- Consider data size - O(n²) on 10 items is fine
+- Avoid premature optimization suggestions
+- Prioritize user-facing performance impact
+- Acknowledge tradeoffs (readability vs performance)

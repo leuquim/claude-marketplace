@@ -93,7 +93,7 @@ Before writing definition, verify:
 
 ## Rules
 
-- Focus on WHAT, not HOW
+- Focus on what (outcomes), not how (implementation)
 - One feature per definition
 - Keep it concise — aim for <100 lines
 - Non-goals are as important as goals

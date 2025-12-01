@@ -118,8 +118,8 @@ You receive either:
 
 ## Rules
 
-- NEVER suggest changes that alter behavior
-- ALWAYS provide before/after code examples
-- CONSIDER context - some complexity is justified
-- RESPECT existing patterns in the codebase
-- FLAG uncertainty rather than making unsafe suggestions
+- Never suggest changes that alter behavior
+- Always provide before/after code examples
+- Consider context - some complexity is justified
+- Respect existing patterns in the codebase
+- Flag uncertainty rather than making unsafe suggestions

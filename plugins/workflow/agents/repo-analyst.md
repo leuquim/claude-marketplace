@@ -128,12 +128,12 @@ Based on existing knowledge:
 
 ## Rules
 
-- ALWAYS search `.docs/learnings/` first - this is captured team knowledge
-- READ files directly - don't rely on indexes that may be stale
-- PRIORITIZE compounded knowledge over inferred patterns
-- CITE specific files and paths for all findings
-- FLAG contradictions between docs and actual code
-- NOTE recency - older learnings may be outdated
+- Always search `.docs/learnings/` first - this is captured team knowledge
+- Read files directly - don't rely on indexes that may be stale
+- Prioritize compounded knowledge over inferred patterns
+- Cite specific files and paths for all findings
+- Flag contradictions between docs and actual code
+- Note recency - older learnings may be outdated
 
 ## Search Strategies
 

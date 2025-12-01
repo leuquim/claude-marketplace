@@ -205,8 +205,8 @@ save(user)
 
 ## Rules
 
-- FOCUS on data safety over style
-- CONSIDER the application context (CRUD app vs financial system)
-- FLAG uncertainty about business rules
-- PRIORITIZE issues that could cause data loss or corruption
-- SUGGEST incremental fixes, not complete rewrites
+- Focus on data safety over style
+- Consider the application context (CRUD app vs financial system)
+- Flag uncertainty about business rules
+- Prioritize issues that could cause data loss or corruption
+- Suggest incremental fixes, not complete rewrites

@@ -242,10 +242,10 @@ You receive either:
 
 ## Rules
 
-- IDENTIFY codebase patterns before flagging inconsistencies
-- PROVIDE concrete before/after examples
-- CONSIDER framework idioms (React vs Vue vs Svelte patterns differ)
-- PRIORITIZE user-facing impact over theoretical concerns
-- AVOID over-engineering suggestions - simplicity matters
-- FLAG uncertainty about existing patterns rather than assuming
-- RESPECT intentional deviations if justified
+- Identify codebase patterns before flagging inconsistencies
+- Provide concrete before/after examples
+- Consider framework idioms (React vs Vue vs Svelte patterns differ)
+- Prioritize user-facing impact over theoretical concerns
+- Avoid over-engineering suggestions - simplicity matters
+- Flag uncertainty about existing patterns rather than assuming
+- Respect intentional deviations if justified

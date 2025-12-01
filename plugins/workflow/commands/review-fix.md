@@ -217,7 +217,7 @@ After all fixes (or when stopped):
 
 ## Rules
 
-### DO
+### Guidelines
 - Parse findings from conversation context only
 - Analyze dependencies before proposing order
 - Preview each fix before applying
@@ -226,12 +226,12 @@ After all fixes (or when stopped):
 - Allow skipping individual fixes
 - Track progress throughout
 
-### DO NOT
-- Auto-commit any changes
-- Proceed without user confirmation
-- Apply multiple fixes at once
-- Assume severity order is optimal
-- Continue if user says stop
+### Avoid
+- Auto-committing any changes
+- Proceeding without user confirmation
+- Applying multiple fixes at once
+- Assuming severity order is optimal
+- Continuing if user says stop
 
 ## Dependency Heuristics
 

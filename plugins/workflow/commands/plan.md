@@ -47,7 +47,7 @@ Present:
 
 ## Rules
 
-- MUST have both definition and research before planning
+- Requires both definition and research before planning
 - Follow patterns and conventions from research
 - Stay within scope defined in definition
 - Order tasks for incremental, testable progress

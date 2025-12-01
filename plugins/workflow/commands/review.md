@@ -312,10 +312,10 @@ Agents dispatched:
 
 ## Rules
 
-- MUST classify files before selecting agents
-- MUST run selected agents in parallel (single Task tool call)
-- MUST explain which agents were dispatched and why
-- SKIP agents when clearly not applicable
-- SYNTHESIZE findings - don't just dump reports
-- PRIORITIZE by severity across all categories
-- DEDUPLICATE overlapping findings
+- Classify files before selecting agents
+- Run selected agents in parallel (single Task tool call)
+- Explain which agents were dispatched and why
+- Skip agents when clearly not applicable
+- Synthesize findings - don't just dump reports
+- Prioritize by severity across all categories
+- Deduplicate overlapping findings

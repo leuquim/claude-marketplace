@@ -40,9 +40,9 @@ Use the `compound` skill to document each selected item.
 - Sensitive information (secrets, credentials)
 - Vague discussions without concrete outcomes
 
-## Strict rules
-- NEVER invent or hallucinate topics not actually discussed
-- NEVER pad the list with marginal items
+## Quality rules
+- Only include topics actually discussed in conversation
+- Only include items that meet all criteria above
 - If nothing qualifies, say so — do not force options
 
 Topic: $ARGUMENTS

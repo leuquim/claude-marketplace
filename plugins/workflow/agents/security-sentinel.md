@@ -173,8 +173,8 @@ You receive either:
 
 ## Rules
 
-- NEVER ignore potential secrets - flag all suspicious patterns
-- ALWAYS consider the context (internal vs external, user input vs trusted)
-- TRACE data flow to understand actual risk
-- AVOID false positives - assess exploitability
-- PROVIDE actionable remediation steps
+- Never ignore potential secrets - flag all suspicious patterns
+- Always consider the context (internal vs external, user input vs trusted)
+- Trace data flow to understand actual risk
+- Avoid false positives - assess exploitability
+- Provide actionable remediation steps

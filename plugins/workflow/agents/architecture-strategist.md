@@ -183,8 +183,8 @@ You receive either:
 
 ## Rules
 
-- CONSIDER the project's scale and complexity
-- AVOID over-engineering recommendations for simple projects
-- RESPECT intentional architectural decisions
-- PRIORITIZE practical improvements over theoretical purity
-- SUGGEST incremental refactoring paths, not big rewrites
+- Consider the project's scale and complexity
+- Avoid over-engineering recommendations for simple projects
+- Respect intentional architectural decisions
+- Prioritize practical improvements over theoretical purity
+- Suggest incremental refactoring paths, not big rewrites

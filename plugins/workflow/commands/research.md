@@ -160,9 +160,9 @@ After writing, provide a brief summary of:
 
 ## Rules
 
-- MUST have a definition before researching
-- MUST run all three agents in parallel (single Task tool message with three calls)
-- PRIORITIZE compounded learnings - this is captured team knowledge
+- Requires a definition before researching
+- Run all three agents in parallel (single Task tool message with three calls)
+- Prioritize compounded learnings - this is captured team knowledge
 - Include file paths in all findings
 - Flag conflicts between agent findings
 - Note if vector search index is missing or stale

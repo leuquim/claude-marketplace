@@ -101,7 +101,7 @@ Do NOT auto-proceed to next phase.
 
 ## Rules
 
-### DO
+### Guidelines
 - Work in the worktree context
 - Complete tasks in order
 - Mark tasks done immediately after completing
@@ -110,12 +110,12 @@ Do NOT auto-proceed to next phase.
 - Follow patterns from research
 - Apply project agent guidance (if .claude/agents/ exists)
 
-### DO NOT
-- Write tests (explicitly excluded)
-- Skip tasks or phases
-- Auto-proceed without user confirmation
-- Make changes outside defined scope
-- Commit without user request
+### Avoid
+- Writing tests (explicitly excluded)
+- Skipping tasks or phases
+- Auto-proceeding without user confirmation
+- Making changes outside defined scope
+- Committing without user request
 
 ## Quality Check Discovery
 
