@@ -17,6 +17,19 @@ This command requires an active work item with:
 
 If any are missing, tell the user which step to run first (`/define`, `/research`, or `/plan`).
 
+## Project Agents
+
+Before starting work, check for project-specific agents:
+
+```bash
+# Check for .claude/agents/*.md
+```
+
+If found, load them to guide implementation:
+- Project agents provide stack-specific patterns and best practices
+- Use their "Work Mode" guidance when implementing
+- They complement (not replace) standard implementation practices
+
 ## Process
 
 ### 1. Locate Work Artifacts
@@ -95,6 +108,7 @@ Do NOT auto-proceed to next phase.
 - Run quality checks after each phase
 - Pause between phases for user review
 - Follow patterns from research
+- Apply project agent guidance (if .claude/agents/ exists)
 
 ### DO NOT
 - Write tests (explicitly excluded)

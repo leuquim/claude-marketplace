@@ -103,10 +103,31 @@ if 'code' in categories and has_complex_logic(files):
 if is_frontend_code(files):  # .jsx, .tsx, .vue, .svelte, or in components/pages/views/
     agents.append('frontend-quality-reviewer')
 
+# Project-specific agents (from .claude/agents/)
+project_agents = discover_project_agents()  # Glob .claude/agents/*.md
+for agent in project_agents:
+    if agent.matches_files(files):  # Check agent description for relevance
+        agents.append(agent)
+
 # Minimum: at least security + simplifier for any code
 if len(agents) == 0 and has_any_code(files):
     agents = ['security-sentinel', 'code-simplifier']
 ```
+
+### 3b. Discover Project Agents
+
+Check for project-specific agents created by `/workflow-init`:
+
+```bash
+# Check for .claude/agents/*.md
+```
+
+For each discovered agent:
+1. Read the agent file
+2. Check if its description matches the files being reviewed
+3. Include if relevant to the current review scope
+
+Project agents run alongside generic workflow agents, providing stack-specific review.
 
 ### 4. Launch Selected Agents in Parallel
 
