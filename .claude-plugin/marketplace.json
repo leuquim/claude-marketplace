@@ -7,13 +7,8 @@
   "plugins": [
     {
       "name": "workflow",
-      "description": "Complete development workflow: define, research, plan, work, review, compound. Includes semantic search via code-vector-cli.",
+      "description": "Complete development workflow: define, research, plan, work, review, compound. Includes semantic search, prompt engineering, and agent building.",
       "source": "./plugins/workflow"
-    },
-    {
-      "name": "core",
-      "description": "Core utilities: git commit helper, prompt engineering, agent building, slash command creation.",
-      "source": "./plugins/core"
     }
   ]
 }
