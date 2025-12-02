@@ -61,14 +61,23 @@ Reply with a number (1-3) to commit, or 'c' for custom message.
 
 ### 5. Wait for User Selection
 
-Use AskUserQuestion with the actual commit messages as options:
+Use AskUserQuestion with formatted options:
 - Question: "Which commit message?"
-- Option 1 label: The concise message text (e.g., "Fix null check in user validation")
-- Option 2 label: The descriptive subject line (e.g., "Fix null check in user validation")
-- Option 3 label: The conventional commit message (e.g., "fix(auth): add null check for user object")
-- Option 4 label: "Custom"
+- Option format: Title/type on first line, actual commit message on second line
 
-The options must show the actual generated commit message text, not just numbers.
+Example options:
+- Option 1:
+  - label: "Concise"
+  - description: "Fix null check in user validation"
+- Option 2:
+  - label: "Descriptive"
+  - description: "Fix null check in user validation\n\nAdd defensive check for undefined user object..."
+- Option 3:
+  - label: "Conventional"
+  - description: "fix(auth): add null check for user object validation"
+- Option 4:
+  - label: "Custom"
+  - description: "Provide your own message"
 
 ### 6. Commit Changes
 
