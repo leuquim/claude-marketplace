@@ -59,25 +59,27 @@ Based on staged changes:
 Reply with a number (1-3) to commit, or 'c' for custom message.
 ```
 
-### 5. Wait for User Selection
+### 5. Display Options and Ask for Selection
 
-Use AskUserQuestion with formatted options:
+First, output the commit messages in this format:
+
+```
+1. Concise
+   Fix null check in user validation
+
+2. Descriptive
+   Fix null check in user validation
+
+   Add defensive check for undefined user object before
+   accessing properties to prevent runtime errors.
+
+3. Conventional
+   fix(auth): add null check for user object validation
+```
+
+Then use AskUserQuestion:
 - Question: "Which commit message?"
-- Option format: Title/type on first line, actual commit message on second line
-
-Example options:
-- Option 1:
-  - label: "Concise"
-  - description: "Fix null check in user validation"
-- Option 2:
-  - label: "Descriptive"
-  - description: "Fix null check in user validation\n\nAdd defensive check for undefined user object..."
-- Option 3:
-  - label: "Conventional"
-  - description: "fix(auth): add null check for user object validation"
-- Option 4:
-  - label: "Custom"
-  - description: "Provide your own message"
+- Options: "1", "2", "3", "Custom"
 
 ### 6. Commit Changes
 
