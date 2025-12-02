@@ -2,7 +2,7 @@
 description: Generate commit message options from staged changes. Optionally specify subfolder for monorepo.
 argument-hint: [subfolder]
 allowed-tools: Bash, AskUserQuestion
-model: haiku
+model: claude-haiku-4-5
 ---
 
 ## Task
