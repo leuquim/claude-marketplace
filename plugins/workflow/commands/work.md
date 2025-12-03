@@ -10,10 +10,10 @@ Execute an implementation plan phase by phase. This is the execution step of the
 ## Prerequisites
 
 This command requires an active work item with:
-- `.docs/work/{slug}/definition.md`
-- `.docs/work/{slug}/research.md`
-- `.docs/work/{slug}/plan.md`
-- `.docs/work/{slug}/TODO.md`
+- `.docs/work/{yyyy_mm_dd_slug}/definition.md`
+- `.docs/work/{yyyy_mm_dd_slug}/research.md`
+- `.docs/work/{yyyy_mm_dd_slug}/plan.md`
+- `.docs/work/{yyyy_mm_dd_slug}/TODO.md`
 
 If any are missing, tell the user which step to run first (`/define`, `/research`, or `/plan`).
 

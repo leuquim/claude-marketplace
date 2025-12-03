@@ -10,8 +10,8 @@ Create an implementation plan for an already-defined and researched feature. Thi
 ## Prerequisites
 
 This command requires an active work item with:
-- `.docs/work/{slug}/definition.md` - Created by `/define`
-- `.docs/work/{slug}/research.md` - Created by `/research`
+- `.docs/work/{yyyy_mm_dd_slug}/definition.md` - Created by `/define`
+- `.docs/work/{yyyy_mm_dd_slug}/research.md` - Created by `/research`
 
 If either is missing, stop and tell the user which step to run first.
 
@@ -35,7 +35,7 @@ Use the `plan` skill to generate:
 
 ### 4. Write Outputs
 
-Write both files to `.docs/work/{slug}/`.
+Write both files to `.docs/work/{yyyy_mm_dd_slug}/`.
 
 ### 5. Summarize for User
 

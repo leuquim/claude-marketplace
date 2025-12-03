@@ -9,13 +9,13 @@ Transform definition and research into an actionable implementation plan.
 
 ## Input Requirements
 
-Must have in `.docs/work/{slug}/`:
+Must have in `.docs/work/{yyyy_mm_dd_slug}/`:
 - `definition.md` - Feature goals, scope, constraints
 - `research.md` - Codebase findings, affected files, patterns
 
 ## Output
 
-Create two files in `.docs/work/{slug}/`:
+Create two files in `.docs/work/{yyyy_mm_dd_slug}/`:
 
 ### 1. `plan.md` - Implementation Approach
 

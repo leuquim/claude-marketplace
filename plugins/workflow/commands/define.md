@@ -1,5 +1,5 @@
 ---
-description: Define a feature before implementation. Clarifies requirements, scope, and constraints. Creates .docs/work/{slug}/definition.md.
+description: Define a feature before implementation. Clarifies requirements, scope, and constraints. Creates .docs/work/yyyy_mm_dd_{slug}/definition.md.
 allowed-tools: Read, Write, Glob, Grep, AskUserQuestion
 ---
 
@@ -23,10 +23,11 @@ Do NOT proceed with vague requirements. Clarify first.
 
 ### 2. Generate Feature Slug
 
-Create a kebab-case slug from the feature name:
-- Short but descriptive (2-4 words)
+Create a date-prefixed kebab-case slug from the feature name:
+- Format: `yyyy_mm_dd_{feature-name}` using today's date
+- Feature name: Short but descriptive (2-4 words)
 - Searchable and memorable
-- Examples: `user-auth-flow`, `api-rate-limiting`, `checkout-validation`
+- Examples: `2025_12_03_user-auth-flow`, `2025_12_03_api-rate-limiting`, `2025_12_03_checkout-validation`
 
 ### 3. Check for Existing Work
 
@@ -36,7 +37,7 @@ Glob `.docs/work/*/definition.md` to see if this feature already has a definitio
 
 ### 4. Write Definition
 
-Create `.docs/work/{slug}/definition.md` with:
+Create `.docs/work/{yyyy_mm_dd_slug}/definition.md` with:
 
 ```markdown
 # {Feature Title}

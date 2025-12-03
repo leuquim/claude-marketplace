@@ -15,7 +15,7 @@ This command requires an active work item with a definition. The conversation sh
 
 ### 1. Locate the Definition
 
-Find the definition file for the current work item in `.docs/work/{slug}/definition.md`.
+Find the definition file for the current work item in `.docs/work/{yyyy_mm_dd_slug}/definition.md`.
 
 If no definition exists or the work item is unclear, stop and ask the user to run `/define` first or clarify which feature to research.
 
@@ -82,7 +82,7 @@ Combine results from all three agents into a unified research document:
 
 ### 5. Write Research Output
 
-Create `.docs/work/{slug}/research.md`:
+Create `.docs/work/{yyyy_mm_dd_slug}/research.md`:
 
 ```markdown
 # Research: {Feature Title}
