@@ -9,6 +9,11 @@
       "name": "workflow",
       "description": "Complete development workflow: define, research, plan, work, review, compound. Includes semantic search, prompt engineering, and agent building.",
       "source": "./plugins/workflow"
+    },
+    {
+      "name": "code-review",
+      "description": "Multi-agent code review with detection and verification layers. Reduces false positives through lifecycle analysis, scope boundaries, and evidence-based validation.",
+      "source": "./plugins/code-review"
     }
   ]
 }
