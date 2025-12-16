@@ -1,54 +1,31 @@
 ---
 name: frontend-detect
-description: Detect frontend quality issues including component architecture, state management, and render performance. Outputs raw findings for verification.
+description: Detect frontend quality issues. Outputs raw findings for verification.
 tools: Read, Grep, Glob
-model: sonnet
+model: haiku
 ---
 
-# Frontend Quality Detection Agent
+# Frontend Detection Agent
 
-Scan frontend code for quality issues. Flag patterns for verification to assess.
-
-## Input
-
-- File list or directory to scan (*.vue, *.jsx, *.tsx, *.svelte)
-- Output file path for findings
+Analyze frontend code for quality issues using the frontend-detect skill.
 
 ## Process
 
-1. **Invoke Skill:** Use the `frontend-detect` skill - it contains detection patterns and severity guidelines
-2. **Identify Framework:** Detect React/Vue/Svelte patterns to apply framework-specific checks
-3. **Check Components:** Analyze structure, state management, effects, error boundaries
-4. **Document:** Write each finding with impact assessment and initial severity
+1. Invoke the `frontend-detect` skill for detection patterns and severity guidelines
+2. Analyze files using patterns from skill
+3. Write findings to output file using skill-defined format
+
+## Input
+
+- File list to analyze
+- Output path for findings
 
 ## Output
 
-Write findings to specified output file using skill-defined format:
-
-```markdown
-# Frontend Quality Detection Findings
-
-**Scope:** {files scanned}
-**Framework:** {React|Vue|Svelte|unknown}
-**Findings:** {count by severity}
-
----
-
-### [Severity] {Issue Type}
-
-**Location:** `file:line`
-**Category:** {Component|State|Performance|Errors|A11y|Memory}
-
-**Code:**
-...
-
-**Impact:** {UX, performance, or maintainability effect}
-**Initial Severity:** {High|Medium|Low}
-```
+Write findings to `{output_dir}/findings/frontend.md` following the skill's output format.
 
 ## Boundaries
 
-- Flag patterns; do not filter based on assumptions
+- Flag patterns; do not filter
 - Note framework-specific implications
-- Consider component context (page vs shared vs utility)
-- Do not skip files - scan everything in scope
+- Analyze everything in scope

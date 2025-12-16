@@ -148,13 +148,6 @@ project-root/
 └── ...
 ```
 
-## Integration with /work
-
-The `/work` command uses this skill to:
-1. Check if worktree exists for the feature slug
-2. Create if not, reuse if exists
-3. Execute work phases in the worktree context
-
 ## Rules
 
 - Always ask user before creating worktree

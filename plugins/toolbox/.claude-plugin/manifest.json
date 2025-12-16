@@ -1,0 +1,8 @@
+{
+  "name": "toolbox",
+  "version": "1.0.0",
+  "description": "Meta-tools for building Claude extensions: create agents, skills, slash commands, prompts, and documentation with best practices and templates.",
+  "author": "leuquim",
+  "license": "MIT",
+  "keywords": ["agents", "skills", "prompts", "documentation", "meta-tools", "templates"]
+}

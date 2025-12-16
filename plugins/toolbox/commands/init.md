@@ -174,7 +174,7 @@ Add or update "Project Tools" section:
 ```markdown
 ## Project Tools
 
-Project-specific agents optimized for this tech stack. These are used automatically by `/work` and `/review` commands.
+Project-specific agents optimized for this tech stack.
 
 ### Agents
 
@@ -190,7 +190,7 @@ Location: `.claude/agents/`
 Report what was created:
 
 ```markdown
-## Workflow Init Complete
+## Init Complete
 
 ### Created Agents
 - `.claude/agents/{name}.md` - {purpose}
@@ -200,14 +200,13 @@ Report what was created:
 - `CLAUDE.md` - Added Project Tools section
 
 ### Next Steps
-- `/work` and `/review` will now use these agents automatically
-- Run `/workflow-init` again to add more agents or update existing ones
+- Run `/init` again to add more agents or update existing ones
 - Edit agents directly in `.claude/agents/` to customize
 ```
 
 ## Re-run Behavior
 
-When `/workflow-init` is run on a project with existing agents:
+When `/init` is run on a project with existing agents:
 
 1. Stack discovery runs fresh
 2. Compare discovered stacks with existing agents

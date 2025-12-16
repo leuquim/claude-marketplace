@@ -1,6 +1,6 @@
 ---
 name: stack-discovery
-description: Discover project tech stack, frameworks, libraries, and tooling. Used by /workflow-init to identify what specialized agents to create.
+description: Discover project tech stack, frameworks, libraries, and tooling. Identifies what specialized agents would benefit the project.
 tools: Read, Grep, Glob
 ---
 

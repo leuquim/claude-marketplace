@@ -1,57 +1,67 @@
 ---
-description: Run multi-agent code review with detection and verification. Analyzes code for security, performance, architecture, and other issues with false-positive filtering.
-argument-hint: [scope] [--domain=X] [--staged] [--diff=branch]
-allowed-tools: Task, Read, Grep, Glob, Write, Bash(mkdir:*), Bash(date:*)
+description: Multi-agent code review with intelligent dispatch. Selects relevant agents based on file types and context.
+allowed-tools: Read, Glob, Grep, Task, AskUserQuestion
 ---
-
-## Context
-
-Working directory: !`pwd`
-Today: !`date +%Y-%m-%d`
-Git status: !`git status --short 2>/dev/null || echo "Not a git repository"`
 
 ## Task
 
-Run a comprehensive code review on the specified scope.
+Run comprehensive code review by delegating to the orchestrator agent.
 
-**Scope:** $ARGUMENTS (default: current directory)
+## Process
 
-### Process
+### 1. Determine Scope
 
-1. Create output directory structure:
-   ```
-   mkdir -p .reviews/{today}/findings
-   ```
+If scope is not clear from context, use AskUserQuestion:
 
-2. Launch orchestrator agent:
-   ```
-   Task(
-     subagent_type: "orchestrator",
-     prompt: "Review scope: {scope}. Output directory: .reviews/{today}. {domain_filter_if_specified}"
-   )
-   ```
+**Question:** "What should I review?"
+**Options:**
+- Recent changes (unstaged git diff)
+- Staged changes (git diff --cached)
+- Specific files/directory
+- Current work item
 
-3. Report completion with path to `.reviews/{today}/REVIEW.md`
+### 2. Gather Files
 
-### Scope Interpretation
+Based on scope, collect the file list:
 
-| Argument | Behavior |
-|----------|----------|
-| (none) | Review current directory recursively |
-| `path/to/file` | Review specific file |
-| `path/to/dir` | Review directory recursively |
-| `--staged` | Review git staged changes only |
-| `--diff=branch` | Review diff against specified branch |
-| `--domain=X` | Run only specified domain (security, performance, etc.) |
+```bash
+# Recent changes
+git diff --name-only
 
-### Output Structure
+# Staged changes
+git diff --cached --name-only
+
+# Specific path
+# Use glob on provided path
+```
+
+### 3. Delegate to Orchestrator
+
+Launch the orchestrator agent with the file list:
 
 ```
-.reviews/
-└── {YYYY-MM-DD}/
-    ├── findings/
-    │   ├── security.md
-    │   ├── performance.md
-    │   └── verified.md
-    └── REVIEW.md          ← Final report
+Task(
+  subagent_type: "code-review:orchestrator",
+  prompt: "Review these files: {file_list}. Write findings to .review/"
+)
 ```
+
+The orchestrator handles:
+- File classification
+- Agent selection (security, architecture, performance, data, frontend, conventions, simplify)
+- Parallel detection
+- Verification
+- Report synthesis
+
+### 4. Present Results
+
+After orchestrator completes:
+- Show summary table
+- Highlight critical/high issues
+- Offer to run `/review-fix` if issues found
+
+## Rules
+
+- Always determine scope first
+- Delegate orchestration to the orchestrator agent
+- Present synthesized results to user

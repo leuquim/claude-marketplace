@@ -35,11 +35,12 @@ Analyze scope before dispatching agents to avoid wasted work on irrelevant domai
 
 | File Patterns | Detection Agents |
 |---------------|------------------|
-| `*.js`, `*.ts`, `*.py`, `*.go`, `*.java` | security-detect, performance-detect, architecture-detect |
-| `*.vue`, `*.jsx`, `*.tsx`, `*.svelte` | frontend-detect, security-detect |
+| `*.js`, `*.ts`, `*.py`, `*.go`, `*.java` | security-detect, performance-detect, architecture-detect, simplify-detect |
+| `*.vue`, `*.jsx`, `*.tsx`, `*.svelte` | frontend-detect, security-detect, simplify-detect |
 | `**/models/*`, `**/migrations/*`, `*.sql` | data-detect |
 | `**/*.test.*`, `**/__tests__/*` | Skip - test code has different standards |
 | Config files | security-detect (secrets check only) |
+| 3+ code files | conventions-detect |
 
 ### Phase 2: Detection (Parallel)
 

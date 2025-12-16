@@ -29,7 +29,7 @@ Parse the review output from conversation history. Build a list of findings:
 {
   id: 1,
   severity: "critical|high|medium|low",
-  category: "security|architecture|simplification|performance|data|frontend",
+  category: "security|architecture|simplify|performance|data|frontend|conventions",
   title: "Issue title",
   location: "file:line",
   description: "What the issue is",
