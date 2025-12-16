@@ -14,6 +14,11 @@
       "name": "code-review",
       "description": "Multi-agent code review with detection and verification layers. Reduces false positives through lifecycle analysis, scope boundaries, and evidence-based validation.",
       "source": "./plugins/code-review"
+    },
+    {
+      "name": "toolbox",
+      "description": "Meta-tools for building Claude extensions: create agents, skills, slash commands, prompts, and documentation with best practices and templates.",
+      "source": "./plugins/toolbox"
     }
   ]
 }
