@@ -1,0 +1,10 @@
+{
+  "name": "rules-curation",
+  "version": "1.0.0",
+  "description": "Autonomous curation of Claude Code memory rules in .claude/rules/ - creating, revising, consolidating, and removing rules as understanding evolves",
+  "author": {
+    "name": "miquel"
+  },
+  "license": "MIT",
+  "keywords": ["memory", "rules", "documentation", "curation", "knowledge-management"]
+}
