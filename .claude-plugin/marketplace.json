@@ -19,6 +19,11 @@
       "name": "toolbox",
       "description": "Meta-tools for building Claude extensions: create agents, skills, slash commands, prompts, and documentation with best practices and templates.",
       "source": "./plugins/toolbox"
+    },
+    {
+      "name": "rules-curation",
+      "description": "Autonomous curation of Claude Code memory rules in .claude/rules/ - creating, revising, consolidating, and removing rules as understanding evolves.",
+      "source": "./plugins/rules-curation"
     }
   ]
 }
