@@ -27,7 +27,7 @@ Execute the specified action using the `curate` skill:
    - Rules with orphaned paths
 4. Present findings:
    - **If nothing found**: Respond "No curation needed based on current context."
-   - **If opportunities found**: Use AskUserQuestion with options for each finding
+   - **If opportunities found**: Use AskUserQuestion with `multiSelect: true` - present each finding as an option so user can select multiple actions at once. Always include free text option for custom input.
 
 ### After user selection:
 

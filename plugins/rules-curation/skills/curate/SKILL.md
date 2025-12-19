@@ -44,7 +44,13 @@ paths: src/auth/**            # All auth files
 paths: **/*.test.ts           # All test files
 ```
 
-Rules without `paths:` load globally - use sparingly.
+Rules without `paths:` load globally - reserve for truly universal constraints (security policies, coding standards that apply everywhere).
+
+**Be intentional about path selection:**
+- Before creating a rule, ask: what files benefit most from this rule?
+- Would this rule add noise if loaded for unrelated files?
+- Prefer specific patterns when the rule applies to particular code areas
+- A rule about API validation belongs in `src/api/**`, not globally
 
 ### 4. Select Template Weight
 
