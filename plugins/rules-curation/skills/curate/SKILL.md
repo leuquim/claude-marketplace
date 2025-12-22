@@ -15,7 +15,23 @@ Maintain Claude Code memory rules in `.claude/rules/` as a living knowledge base
 
 ## Process
 
-### 1. Assess Situation
+### 1. Find Workspace Root
+
+Rules must be created at the **workspace root**, not inside sub-repos or nested folders.
+
+```bash
+# Find workspace root by locating existing .claude/ or git root
+git rev-parse --show-toplevel
+```
+
+If working in a multi-repo workspace (multiple git repos under one folder):
+- Look for existing `.claude/` directory in parent directories
+- Check if parent directory contains multiple `.git` subdirectories (sibling repos)
+- When uncertain, ask the user which directory is the workspace root
+
+All paths below are relative to the workspace root, not CWD.
+
+### 2. Assess Situation
 
 Determine the curation action:
 
@@ -26,15 +42,23 @@ Determine the curation action:
 | Rules overlap | Consolidate |
 | Rule paths match no files | Update paths or Remove |
 
-### 2. Check Existing Rules
+### 3. Check Existing Rules (Selective)
 
-```bash
-find .claude/rules -name "*.md" -type f
-```
+**Don't read all rules.** Be selective based on the curation topic:
 
-Read relevant rules to avoid duplication or identify consolidation targets.
+1. **List rule files** (fast, no content):
+   ```bash
+   find {workspace_root}/.claude/rules -name "*.md" -type f
+   ```
 
-### 3. Determine Paths
+2. **Read only what's relevant**:
+   - Rules in the same code area folder (e.g., if curating API rules, read `rules/api/*.md`)
+   - Global rules only if the new rule might conflict with universal constraints
+   - Skip unrelated domains entirely
+
+3. **When consolidating**: Read candidate rules to merge, not the entire ruleset
+
+### 4. Determine Paths
 
 Rules should have `paths:` frontmatter matching the code area they apply to.
 
@@ -52,7 +76,7 @@ Rules without `paths:` load globally - reserve for truly universal constraints (
 - Prefer specific patterns when the rule applies to particular code areas
 - A rule about API validation belongs in `src/api/**`, not globally
 
-### 4. Select Template Weight
+### 5. Select Template Weight
 
 **Decision flow:**
 1. Can the rule be stated in one sentence without losing meaning? → **Atomic**
@@ -69,7 +93,7 @@ Templates: @templates/atomic.md (~20 tokens), @templates/light.md (~50 tokens), 
 
 Default to atomic. Escalate only when simpler form loses essential information.
 
-### 5. Execute Action
+### 6. Execute Action
 
 **Create**: Write new rule file using appropriate template.
 
@@ -79,7 +103,7 @@ Default to atomic. Escalate only when simpler form loses essential information.
 
 **Remove**: Delete rule file when no longer applicable.
 
-### 6. Verify
+### 7. Verify
 
 - Glob pattern matches intended files: `find . -path "<pattern>"`
 - No contradiction with other rules in same path scope

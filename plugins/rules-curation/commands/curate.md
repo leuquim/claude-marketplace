@@ -18,9 +18,11 @@ Execute the specified action using the `curate` skill:
 
 ### If no action provided:
 
-1. Scan conversation for curation opportunities
-2. Check existing rules in `.claude/rules/`
-3. Identify:
+1. **Find workspace root** - Rules go at workspace root, not inside sub-repos. Look for existing `.claude/` in parent directories, or check for sibling `.git` repos.
+2. Scan conversation for curation opportunities
+3. **List** existing rules in `{workspace_root}/.claude/rules/` (filenames only, don't read content yet)
+4. **Read selectively** - Only read rules in the same code area being curated, not all rules
+5. Identify:
    - Knowledge worth capturing (patterns, constraints, gotchas)
    - Rules that contradict current practice
    - Rules with overlapping scope

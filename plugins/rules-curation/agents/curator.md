@@ -54,12 +54,23 @@ Return results as:
 
 # Process
 
-1. **Inventory**: List all rules in `.claude/rules/`
-2. **Validate paths**: For each rule with `paths:`, verify pattern matches files
-3. **Check coherence**: Identify overlapping scopes, check for contradictions
-4. **Assess coverage**: Find significant code areas without rules
-5. **Execute fixes**: Update paths, consolidate redundant rules, remove obsolete
-6. **Report**: Summarize actions and flag items needing human decision
+1. **Find workspace root**: Rules live at workspace root, not inside sub-repos
+   - Look for existing `.claude/` directory in parent directories
+   - Check if parent contains multiple `.git` subdirectories (sibling repos)
+   - When uncertain, ask the user
+
+2. **Inventory**: List all rules in `{workspace_root}/.claude/rules/`
+
+3. **Validate paths**: For each rule with `paths:`, verify pattern matches files
+   - Optimization: Read only frontmatter first (`head -20`), then full content only when needed
+
+4. **Check coherence**: Identify overlapping scopes, check for contradictions
+
+5. **Assess coverage**: Find significant code areas without rules
+
+6. **Execute fixes**: Update paths, consolidate redundant rules, remove obsolete
+
+7. **Report**: Summarize actions and flag items needing human decision
 
 # Boundaries
 
