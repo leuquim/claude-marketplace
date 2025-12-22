@@ -7,7 +7,28 @@ allowed-tools: Read, Glob, Grep, Bash, Task, Write, AskUserQuestion
 
 Run comprehensive code review with user-selected detection agents. All user interaction happens in this command before delegating detection work to agents.
 
+## Output Location
+
+Reviews are stored at workspace root, grouped by branch and timestamp:
+
+```
+{workspace_root}/.reviews/{branch_name}/{timestamp}/
+├── findings/
+│   ├── {domain}.md      # Raw findings per agent
+│   └── verified.md      # Post-verification findings
+└── REVIEW.md            # Final report
+```
+
+Example: `.reviews/feature-auth/2025-01-15_14-30/`
+
 ## Process
+
+### 0. Find Workspace Root
+
+Reviews go at workspace root, not CWD:
+- Look for existing `.claude/` or `.reviews/` in parent directories
+- Check if parent contains multiple `.git` subdirectories (sibling repos)
+- When uncertain, ask the user
 
 ### 1. Determine Scope
 
@@ -71,9 +92,14 @@ If `changes-detect` was selected, ask for the comparison base:
 
 ### 5. Launch Detection Agents (Parallel)
 
-Create output directory:
+Determine output path and create directory:
 ```bash
-mkdir -p .review/findings
+# Get branch name and timestamp
+branch=$(git rev-parse --abbrev-ref HEAD)
+timestamp=$(date +%Y-%m-%d_%H-%M)
+output_dir="{workspace_root}/.reviews/${branch}/${timestamp}"
+
+mkdir -p "${output_dir}/findings"
 ```
 
 Launch selected detection agents in parallel using Task tool:
@@ -82,13 +108,13 @@ Launch selected detection agents in parallel using Task tool:
 # For most agents:
 Task(
   subagent_type: "code-review:{domain}-detect",
-  prompt: "Review these files: {file_list}. Invoke the {domain}-detect skill. Write findings to .review/findings/{domain}.md"
+  prompt: "Review these files: {file_list}. Invoke the {domain}-detect skill. Write findings to {output_dir}/findings/{domain}.md"
 )
 
 # For changes-detect specifically:
 Task(
   subagent_type: "code-review:changes-detect",
-  prompt: "Analyze diff from {base_branch} to HEAD for files: {file_list}. Invoke the changes-detect skill. Write findings to .review/findings/changes.md"
+  prompt: "Analyze diff from {base_branch} to HEAD for files: {file_list}. Invoke the changes-detect skill. Write findings to {output_dir}/findings/changes.md"
 )
 ```
 
@@ -101,13 +127,13 @@ After all detection agents complete, run verification on combined findings:
 ```
 Task(
   subagent_type: "code-review:verification",
-  prompt: "Verify all findings in .review/findings/*.md. Invoke the verification skill. Write validated findings to .review/findings/verified.md"
+  prompt: "Verify all findings in {output_dir}/findings/*.md. Invoke the verification skill. Write validated findings to {output_dir}/findings/verified.md"
 )
 ```
 
 ### 7. Synthesize Report
 
-Read verified findings and generate final report to `.review/REVIEW.md`:
+Read verified findings and generate final report to `{output_dir}/REVIEW.md`:
 
 ```markdown
 # Code Review Report
@@ -154,6 +180,7 @@ Read verified findings and generate final report to `.review/REVIEW.md`:
 
 - Show summary table to user
 - Highlight critical/high severity issues
+- Display path to full report: `{output_dir}/REVIEW.md`
 - Offer to run `/review-fix` if actionable issues found
 
 ## Rules
