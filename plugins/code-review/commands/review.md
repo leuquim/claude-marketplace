@@ -50,6 +50,7 @@ Use AskUserQuestion with `multiSelect: true` to let the user choose which agents
 **Question 2 - Specialized Analysis:**
 | Option | Description |
 |--------|-------------|
+| changes-detect | Functional changes: behavior, business rules, API contracts |
 | frontend-detect | Component architecture, state, render performance, a11y |
 | data-detect | Transaction safety, integrity, migrations, race conditions |
 | conventions-detect | Naming patterns, organization, import ordering |
@@ -59,6 +60,14 @@ Default pre-selection based on file types (show as recommendations):
 - Frontend files → frontend, security, simplify
 - Data files → data
 - 3+ files → conventions
+- Diff-based scope → changes-detect
+
+### 3b. Get Base Branch (if changes-detect selected)
+
+If `changes-detect` was selected, ask for the comparison base:
+
+**Question:** "What base branch should I compare against?"
+**Options:** main, master, develop, Other (specify)
 
 ### 4. Delegate to Orchestrator
 
@@ -67,7 +76,7 @@ Launch the orchestrator agent with file list AND selected agents:
 ```
 Task(
   subagent_type: "code-review:orchestrator",
-  prompt: "Review these files: {file_list}. Run ONLY these agents: {selected_agents}. Write findings to .review/"
+  prompt: "Review these files: {file_list}. Run ONLY these agents: {selected_agents}. Base branch: {base_branch}. Write findings to .review/"
 )
 ```
 

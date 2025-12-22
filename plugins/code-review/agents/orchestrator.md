@@ -22,6 +22,7 @@ You receive:
 - Scope definition (files, directories, or diff)
 - Output directory for findings
 - **Selected agents** (user-chosen list from /review command)
+- **Base branch** (for changes-detect agent, if selected)
 
 ## Process
 
@@ -39,6 +40,7 @@ You receive:
 | `*.vue`, `*.jsx`, `*.tsx`, `*.svelte` | frontend, security, simplify |
 | `**/models/*`, `**/migrations/*`, `*.sql` | data |
 | 3+ code files | conventions |
+| diff-based scope | changes |
 
 ### Phase 2: Detection (Parallel)
 
@@ -49,6 +51,15 @@ Use Task tool for each selected agent:
 Task(
   subagent_type: "{domain}-detect",
   prompt: "Review these files: {file_list}. Invoke the {domain}-detect skill for detection patterns. Write findings to {output_dir}/findings/{domain}.md",
+  run_in_background: true
+)
+```
+
+For `changes-detect` specifically, include the base branch:
+```
+Task(
+  subagent_type: "changes-detect",
+  prompt: "Analyze diff from {base_branch} to HEAD for files: {file_list}. Invoke the changes-detect skill. Write findings to {output_dir}/findings/changes.md",
   run_in_background: true
 )
 ```
