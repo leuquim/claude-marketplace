@@ -1,5 +1,5 @@
 ---
-description: Multi-agent code review with intelligent dispatch. Selects relevant agents based on file types and context.
+description: Multi-agent code review with user-selected agents. Presents available reviewers for intentional dispatch.
 allowed-tools: Read, Glob, Grep, Task, AskUserQuestion
 ---
 
@@ -35,25 +35,48 @@ git diff --cached --name-only
 # Use glob on provided path
 ```
 
-### 3. Delegate to Orchestrator
+### 3. Select Review Agents
 
-Launch the orchestrator agent with the file list:
+Use AskUserQuestion with `multiSelect: true` to let the user choose which agents to run.
+
+**Question 1 - Core Analysis:**
+| Option | Description |
+|--------|-------------|
+| security-detect | Injection risks, secrets, auth gaps, OWASP Top 10 |
+| performance-detect | N+1 queries, caching, complexity, memory leaks |
+| architecture-detect | SOLID violations, coupling, circular dependencies |
+| simplify-detect | Over-engineering, dead code, unnecessary abstraction |
+
+**Question 2 - Specialized Analysis:**
+| Option | Description |
+|--------|-------------|
+| frontend-detect | Component architecture, state, render performance, a11y |
+| data-detect | Transaction safety, integrity, migrations, race conditions |
+| conventions-detect | Naming patterns, organization, import ordering |
+
+Default pre-selection based on file types (show as recommendations):
+- Backend files → security, performance, architecture, simplify
+- Frontend files → frontend, security, simplify
+- Data files → data
+- 3+ files → conventions
+
+### 4. Delegate to Orchestrator
+
+Launch the orchestrator agent with file list AND selected agents:
 
 ```
 Task(
   subagent_type: "code-review:orchestrator",
-  prompt: "Review these files: {file_list}. Write findings to .review/"
+  prompt: "Review these files: {file_list}. Run ONLY these agents: {selected_agents}. Write findings to .review/"
 )
 ```
 
 The orchestrator handles:
-- File classification
-- Agent selection (security, architecture, performance, data, frontend, conventions, simplify)
-- Parallel detection
+- Parallel detection with selected agents only
 - Verification
 - Report synthesis
 
-### 4. Present Results
+### 5. Present Results
 
 After orchestrator completes:
 - Show summary table

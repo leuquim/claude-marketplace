@@ -21,26 +21,24 @@ A successful review produces:
 You receive:
 - Scope definition (files, directories, or diff)
 - Output directory for findings
-- Optional: specific detection domains to run
+- **Selected agents** (user-chosen list from /review command)
 
 ## Process
 
 ### Phase 1: Scope Analysis
 
-Analyze scope before dispatching agents to avoid wasted work on irrelevant domains.
-
 1. Identify files to review (glob patterns, git diff, or explicit list)
-2. Classify file types present (backend, frontend, database, config)
-3. Select relevant detection agents based on file types:
+2. **Use the agents specified in the prompt** - the user has already selected which agents to run via /review command
+3. Do NOT auto-select additional agents beyond what the user chose
 
-| File Patterns | Detection Agents |
-|---------------|------------------|
-| `*.js`, `*.ts`, `*.py`, `*.go`, `*.java` | security-detect, performance-detect, architecture-detect, simplify-detect |
-| `*.vue`, `*.jsx`, `*.tsx`, `*.svelte` | frontend-detect, security-detect, simplify-detect |
-| `**/models/*`, `**/migrations/*`, `*.sql` | data-detect |
-| `**/*.test.*`, `**/__tests__/*` | Skip - test code has different standards |
-| Config files | security-detect (secrets check only) |
-| 3+ code files | conventions-detect |
+**Reference only** (the /review command uses this for recommendations):
+
+| File Patterns | Typical Agents |
+|---------------|----------------|
+| `*.js`, `*.ts`, `*.py`, `*.go`, `*.java` | security, performance, architecture, simplify |
+| `*.vue`, `*.jsx`, `*.tsx`, `*.svelte` | frontend, security, simplify |
+| `**/models/*`, `**/migrations/*`, `*.sql` | data |
+| 3+ code files | conventions |
 
 ### Phase 2: Detection (Parallel)
 
@@ -141,10 +139,9 @@ Write final report to `REVIEW.md`:
 
 ## Agent Selection Logic
 
-Default to all relevant agents. Skip agents when:
-- No matching file types in scope
-- User explicitly excludes domain
-- Scope is too small (<3 files) - run inline instead
+**Run only the agents specified by the user.** The /review command presents all available agents as a multi-select question, so the user has already made an intentional choice.
+
+Do NOT add agents beyond the user's selection, even if file patterns suggest relevance.
 
 ## Error Handling
 
