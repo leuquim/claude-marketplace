@@ -1,6 +1,6 @@
 {
   "name": "rules-curation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Autonomous curation of Claude Code memory rules in .claude/rules/ - creating, revising, consolidating, and removing rules as understanding evolves",
   "author": {
     "name": "miquel"
