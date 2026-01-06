@@ -1,5 +1,5 @@
 ---
-description: Create implementation plan from definition and research. Outputs plan.md (approach) and TODO.md (ordered tasks). Phase 3 of development workflow.
+description: Create implementation plan from definition and research. Outputs plan.md and TODO.md.
 allowed-tools: Read, Write, Glob
 ---
 
@@ -7,11 +7,15 @@ allowed-tools: Read, Write, Glob
 
 Create an implementation plan for an already-defined and researched feature. This is Phase 3 of the development workflow.
 
+## Setup
+
+Invoke the `settings` skill to resolve paths. Use the returned `work_dir` for all file operations.
+
 ## Prerequisites
 
 This command requires an active work item with:
-- `.docs/work/{yyyy_mm_dd_slug}/definition.md` - Created by `/define`
-- `.docs/work/{yyyy_mm_dd_slug}/research.md` - Created by `/research`
+- `{work_dir}/{slug}/definition.md` - Created by `/workflow:1:define`
+- `{work_dir}/{slug}/research.md` - Created by `/workflow:2:research`
 
 If either is missing, stop and tell the user which step to run first.
 
@@ -35,7 +39,7 @@ Use the `plan` skill to generate:
 
 ### 4. Write Outputs
 
-Write both files to `.docs/work/{yyyy_mm_dd_slug}/`.
+Write both files to `{work_dir}/{slug}/`.
 
 ### 5. Summarize for User
 

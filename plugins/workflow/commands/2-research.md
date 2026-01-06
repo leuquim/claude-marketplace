@@ -1,11 +1,15 @@
 ---
-description: Research codebase for a defined feature. Runs three parallel agents (Explore + vector search + repo analyst) to find affected files, patterns, compounded knowledge, and dependencies. Requires existing definition.
+description: Research codebase for a defined feature. Runs parallel agents to find patterns and dependencies.
 allowed-tools: Read, Write, Glob, Task
 ---
 
 ## Task
 
 Research the codebase for an already-defined feature. This is Phase 2 of the development workflow.
+
+## Setup
+
+Invoke the `settings` skill to resolve paths. Use the returned values for all file operations.
 
 ## Prerequisites
 
@@ -15,9 +19,9 @@ This command requires an active work item with a definition. The conversation sh
 
 ### 1. Locate the Definition
 
-Find the definition file for the current work item in `.docs/work/{yyyy_mm_dd_slug}/definition.md`.
+Find the definition file for the current work item in `{work_dir}/{slug}/definition.md`.
 
-If no definition exists or the work item is unclear, stop and ask the user to run `/define` first or clarify which feature to research.
+If no definition exists or the work item is unclear, stop and ask the user to run `/workflow:1:define` first or clarify which feature to research.
 
 ### 2. Read the Definition
 
@@ -65,7 +69,7 @@ Prompt: Research existing documentation and compounded knowledge for this featur
 {paste definition content}
 
 Search:
-1. .docs/learnings/ for relevant compounded knowledge
+1. {learnings_dir}/ for relevant compounded knowledge
 2. CLAUDE.md, README.md, ARCHITECTURE.md for project context
 3. Existing patterns and conventions in documentation
 
@@ -82,7 +86,7 @@ Combine results from all three agents into a unified research document:
 
 ### 5. Write Research Output
 
-Create `.docs/work/{yyyy_mm_dd_slug}/research.md`:
+Create `{work_dir}/{slug}/research.md`:
 
 ```markdown
 # Research: {Feature Title}
@@ -91,9 +95,9 @@ Create `.docs/work/{yyyy_mm_dd_slug}/research.md`:
 
 ## Compounded Knowledge
 
-{Relevant learnings from .docs/learnings/ - this is team wisdom}
+{Relevant learnings from learnings directory - this is team wisdom}
 
-- **{learning-title}** (`.docs/learnings/{domain}/{file}.md`)
+- **{learning-title}** (`{learnings_dir}/{domain}/{file}.md`)
   > {key insight}
 
 ## Affected Files

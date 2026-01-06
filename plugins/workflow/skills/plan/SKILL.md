@@ -1,21 +1,25 @@
 ---
 name: plan
-description: Create implementation plan from definition and research artifacts. Outputs plan.md (approach) and TODO.md (ordered task checklist). Use after /define and /research are complete.
+description: Create implementation plan from definition and research artifacts. Outputs plan.md (approach) and TODO.md (ordered task checklist). Use after /workflow:1:define and /workflow:2:research are complete.
 ---
 
 # Plan Skill
 
 Transform definition and research into an actionable implementation plan.
 
+## Path Configuration
+
+Paths are resolved via the `settings` skill. See @config/paths.md for defaults.
+
 ## Input Requirements
 
-Must have in `.docs/work/{yyyy_mm_dd_slug}/`:
+Must have in `{work_dir}/{slug}/`:
 - `definition.md` - Feature goals, scope, constraints
 - `research.md` - Codebase findings, affected files, patterns
 
 ## Output
 
-Create two files in `.docs/work/{yyyy_mm_dd_slug}/`:
+Create two files in `{work_dir}/{slug}/`:
 
 ### 1. `plan.md` - Implementation Approach
 

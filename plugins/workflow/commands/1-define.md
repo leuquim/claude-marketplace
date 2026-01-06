@@ -1,11 +1,15 @@
 ---
-description: Define a feature before implementation. Clarifies requirements, scope, and constraints. Creates .docs/work/yyyy_mm_dd_{slug}/definition.md.
+description: Define a feature before implementation. Clarifies requirements, scope, and constraints.
 allowed-tools: Read, Write, Glob, Grep, AskUserQuestion
 ---
 
 ## Task
 
 Define a feature or task before implementation. This is Phase 1 of the development workflow.
+
+## Setup
+
+Invoke the `settings` skill to resolve paths. Use the returned `work_dir` for all file operations.
 
 ## Process
 
@@ -27,17 +31,17 @@ Create a date-prefixed kebab-case slug from the feature name:
 - Format: `yyyy_mm_dd_{feature-name}` using today's date
 - Feature name: Short but descriptive (2-4 words)
 - Searchable and memorable
-- Examples: `2025_12_03_user-auth-flow`, `2025_12_03_api-rate-limiting`, `2025_12_03_checkout-validation`
+- Examples: `2025_12_03_user-auth-flow`, `2025_12_03_api-rate-limiting`
 
 ### 3. Check for Existing Work
 
-Glob `.docs/work/*/definition.md` to see if this feature already has a definition.
+Glob `{work_dir}/*/definition.md` to see if this feature already has a definition.
 - If exists: Ask user whether to update existing or create new
 - If not: Proceed with creation
 
 ### 4. Write Definition
 
-Create `.docs/work/{yyyy_mm_dd_slug}/definition.md` with:
+Create `{work_dir}/{slug}/definition.md` with:
 
 ```markdown
 # {Feature Title}
@@ -90,7 +94,7 @@ Before writing definition, verify:
 - [ ] Problem is clearly stated
 - [ ] Goals are specific and measurable
 - [ ] Scope boundaries are explicit
-- [ ] No implementation details (that's for /research and /plan)
+- [ ] No implementation details (that's for /workflow:2:research and /workflow:3:plan)
 
 ## Rules
 

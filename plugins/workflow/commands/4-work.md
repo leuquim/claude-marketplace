@@ -1,5 +1,5 @@
 ---
-description: Execute implementation plan one phase at a time. Uses git worktree for isolation, runs quality checks after each phase. Requires existing plan.
+description: Execute implementation plan one phase at a time. Uses git worktree for isolation.
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 ---
 
@@ -7,22 +7,26 @@ allowed-tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 
 Execute an implementation plan phase by phase. This is the execution step of the development workflow.
 
+## Setup
+
+Invoke the `settings` skill to resolve paths. Use the returned values for all file operations.
+
 ## Prerequisites
 
 This command requires an active work item with:
-- `.docs/work/{yyyy_mm_dd_slug}/definition.md`
-- `.docs/work/{yyyy_mm_dd_slug}/research.md`
-- `.docs/work/{yyyy_mm_dd_slug}/plan.md`
-- `.docs/work/{yyyy_mm_dd_slug}/TODO.md`
+- `{work_dir}/{slug}/definition.md`
+- `{work_dir}/{slug}/research.md`
+- `{work_dir}/{slug}/plan.md`
+- `{work_dir}/{slug}/TODO.md`
 
-If any are missing, tell the user which step to run first (`/define`, `/research`, or `/plan`).
+If any are missing, tell the user which step to run first (`/workflow:1:define`, `/workflow:2:research`, or `/workflow:3:plan`).
 
 ## Project Agents
 
 Before starting work, check for project-specific agents:
 
 ```bash
-# Check for .claude/agents/*.md
+# Check for {agents_dir}/*.md
 ```
 
 If found, load them to guide implementation:
@@ -108,7 +112,7 @@ Do NOT auto-proceed to next phase.
 - Run quality checks after each phase
 - Pause between phases for user review
 - Follow patterns from research
-- Apply project agent guidance (if .claude/agents/ exists)
+- Apply project agent guidance (if agents directory exists)
 
 ### Avoid
 - Writing tests (explicitly excluded)
