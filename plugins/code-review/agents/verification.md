@@ -1,6 +1,6 @@
 ---
 name: verification
-description: Validate raw code review findings through evidence-based analysis. Filters false positives, calibrates severity, and produces verified findings with evidence.
+description: Validate findings through evidence-based analysis. Filters false positives and calibrates severity.
 tools: Read, Grep, Glob
 model: sonnet
 ---

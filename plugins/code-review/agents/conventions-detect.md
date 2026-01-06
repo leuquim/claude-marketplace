@@ -1,6 +1,6 @@
 ---
 name: conventions-detect
-description: Detect convention inconsistencies by learning codebase patterns first. Outputs raw findings for verification.
+description: Detect convention inconsistencies by learning codebase patterns. Outputs raw findings.
 tools: Read, Grep, Glob
 model: haiku
 ---

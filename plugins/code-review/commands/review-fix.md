@@ -1,5 +1,5 @@
 ---
-description: Work through review findings in optimal dependency order. Analyzes review output and fixes issues one by one with user approval.
+description: Work through review findings in dependency order with one-by-one approval.
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 ---
 

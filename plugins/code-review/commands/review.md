@@ -1,5 +1,5 @@
 ---
-description: Multi-agent code review with user-selected agents. Presents available reviewers for intentional dispatch.
+description: Multi-agent code review with user-selected detection agents.
 allowed-tools: Read, Glob, Grep, Bash, Task, Write, AskUserQuestion
 ---
 
