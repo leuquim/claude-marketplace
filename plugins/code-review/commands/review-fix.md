@@ -1,251 +1,320 @@
 ---
-description: Work through review findings in dependency order with one-by-one approval.
+description: Resume and execute fixes from a code review with checkpoint persistence.
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 ---
 
 ## Task
 
-Analyze the code review just performed, determine optimal fix order based on dependencies, and work through fixes one by one with user approval.
-
-## Prerequisites
-
-This command requires a `/review` to have been run in the current conversation.
-
-If no review findings are in context:
-```
-No review findings found in this conversation.
-
-Run `/review` first, then use `/review-fix` to work through the findings.
-```
-Then stop.
+Resume a code review and work through fixes from TODO.md with checkpoint persistence. Each fix updates TODO.md, enabling mid-session interruption and resume by a different agent.
 
 ## Process
 
-### 1. Extract Findings
+### 1. Find Review Directory
 
-Parse the review output from conversation history. Build a list of findings:
+Locate the most recent review for the current branch:
+
+```bash
+branch=$(git rev-parse --abbrev-ref HEAD)
+workspace_root="{find workspace root as in /review}"
+review_dir=$(ls -td ${workspace_root}/.reviews/${branch}/*/ 2>/dev/null | head -1)
+```
+
+**If no review found for current branch:**
+
+Check if other branches have reviews:
+```bash
+ls -d ${workspace_root}/.reviews/*/ 2>/dev/null
+```
+
+If reviews exist for other branches, use AskUserQuestion:
+
+**Question:** "No review found for branch '{branch}'. What would you like to do?"
+**Options:**
+- Run /review for current branch
+- Use review from {other_branch} ({timestamp})
+- Specify path manually
+
+If no reviews exist at all:
+```
+No reviews found in {workspace_root}/.reviews/
+
+Run `/review` first to create a code review.
+```
+Then stop.
+
+### 2. Validate Review Directory
+
+Check for required files in `{review_dir}`:
+
+| File | Required | Purpose |
+|------|----------|---------|
+| README.md | Yes | Entry point with context |
+| TODO.md | Yes | Actionable checklist |
+| findings/verified.md | Yes | Verified findings |
+| REVIEW.md | No | Full report (reference only) |
+
+**If TODO.md is missing but REVIEW.md exists:**
+
+This review was created before TODO.md support. Use AskUserQuestion:
+
+**Question:** "This review doesn't have a TODO.md. Would you like me to generate one from REVIEW.md?"
+**Options:**
+- Yes, generate TODO.md now
+- No, I'll run a new /review instead
+
+If yes, run dependency analysis (Step 8 from /review) and generate TODO.md.
+
+### 3. Parse TODO.md
+
+Read `{review_dir}/TODO.md` and extract:
 
 ```
 {
-  id: 1,
-  severity: "critical|high|medium|low",
-  category: "security|architecture|simplify|performance|data|frontend|conventions",
-  title: "Issue title",
-  location: "file:line",
-  description: "What the issue is",
-  recommendation: "How to fix"
+  review_timestamp: "{from header}",
+  branch: "{from header}",
+  status: { completed: n, total: n },
+  items: [
+    {
+      id: "B-001",
+      phase: "behavioral",
+      checkbox_state: "unchecked" | "checked" | "skipped",
+      severity: "Critical",
+      category: "security",
+      title: "SQL injection fix",
+      location: "src/services/auth.ts:67",
+      problem: "Unsanitized input in query",
+      action: "Use parameterized query",
+      depends_on: ["S-001"],
+      blocks: ["B-002"],
+      reference: "./findings/verified.md#sql-injection",
+      fixed_at: null | "{ISO timestamp}"
+    },
+    ...
+  ],
+  progress_log: [...]
 }
 ```
 
-### 2. Dependency Analysis
+**Checkbox state detection:**
+- `- [ ]` → unchecked
+- `- [x]` → checked (completed)
+- `- [~]` → skipped
 
-Classify each finding by change type:
+### 4. Determine Starting Point
 
-| Type | Description | Examples |
-|------|-------------|----------|
-| **structural** | File moves, splits, renames, new files | "Split this god class", "Extract to separate module" |
-| **interface** | Signature changes, contract changes, API changes | "Change return type", "Add parameter", "Rename method" |
-| **behavioral** | Logic fixes within existing structure | "Add validation", "Fix race condition", "Memoize" |
-
-Build dependency rules:
+Find the first unchecked item whose dependencies are all satisfied:
 
 ```
-structural → before behavioral fixes in affected files
-interface → before fixes in calling code
-shared code → before dependent code
-parent component → before child component (frontend)
-schema/migration → before application code (data)
+completed_ids = [item.id for item in items if item.checkbox_state == "checked"]
+
+for item in items (in order):
+  if item.checkbox_state == "unchecked":
+    if all(dep in completed_ids for dep in item.depends_on):
+      start_item = item
+      break
 ```
 
-### 3. Build Fix Order
-
-Create a directed graph:
-- Nodes = findings
-- Edges = "must happen before"
-
-Determine order:
-1. Topological sort (respect dependencies)
-2. Within same dependency level, sort by:
-   - Structural before interface before behavioral
-   - Higher severity before lower (as tiebreaker)
-
-### 4. Present Proposed Order
-
-Show the reordered fix plan:
+**Show current state:**
 
 ```markdown
-## Proposed Fix Order
+## Review Progress
 
-Based on dependency analysis, here's the optimal order:
+**Directory:** {review_dir}
+**Branch:** {branch}
+**Status:** {completed}/{total} complete, {skipped} skipped
 
-### Phase 1: Structural Changes
-| # | Severity | Issue | Location | Why First |
-|---|----------|-------|----------|-----------|
-| 1 | Low | Split UserService into Auth + Profile | src/services/user.ts | Other fixes target code that will move |
-| 2 | Medium | Extract validation helpers | src/utils/ | Security fix will use these |
+### Completed
+{list checked items with [x]}
 
-### Phase 2: Interface Changes
-| # | Severity | Issue | Location | Why Here |
-|---|----------|-------|----------|----------|
-| 3 | Medium | Add userId param to audit functions | src/audit.ts | Security fix needs this signature |
+### Next Up
+- [ ] {start_item.id}: {start_item.title}
 
-### Phase 3: Behavioral Fixes
-| # | Severity | Issue | Location | Depends On |
-|---|----------|-------|----------|------------|
-| 4 | Critical | SQL injection in user lookup | src/services/auth.ts | #1 (file moved), #2 (uses validators) |
-| 5 | High | Missing auth check on /admin | src/routes/admin.ts | #3 (audit signature) |
-| 6 | Medium | N+1 query in dashboard | src/pages/dashboard.ts | None |
+### Blocked
+{items with unsatisfied dependencies}
 
----
-
-**Original severity order would have been:** 4 → 5 → 1 → 2 → 3 → 6
-**Dependency order:** 1 → 2 → 3 → 4 → 5 → 6
-
-Fixing in dependency order avoids rework from structural changes.
+### Remaining
+{other unchecked items}
 ```
 
-### 5. Confirm Order
+If all items complete or skipped:
+```
+All items in this review have been addressed.
 
-Use AskUserQuestion:
+Summary:
+- Completed: {n}
+- Skipped: {n}
 
-**Question:** "Ready to start fixing in this order?"
+Run `/review` again to check for any new issues.
+```
+Then stop.
 
-**Options:**
-- Start with fix #1
-- Show me the details of a specific fix first
-- I want to adjust the order
-- Cancel
+### 5. Execute Fixes (Loop)
 
-If "adjust order": Let user specify, then re-present.
+For each remaining item in dependency order:
 
-### 6. Execute Fixes (One by One)
-
-For each fix in order:
-
-#### 6a. Preview
+#### 5a. Preview
 
 ```markdown
-## Fix {N}/{total}: {Title}
+## Fix {current}/{remaining}: {id} - {title}
 
 **Severity:** {severity}
 **Category:** {category}
-**Location:** `{file:line}`
+**Location:** `{location}`
 
 ### Problem
-{description}
+{problem description}
 
-### Proposed Solution
-{recommendation}
+### Proposed Action
+{action}
 
-### Files to Modify
-- `{file1}` - {what changes}
-- `{file2}` - {what changes}
+### Dependencies
+- **Completed:** {list completed deps, or "None"}
+- **Blocks:** {list of items this unblocks}
+
+### Reference
+See: [{reference_filename}]({reference})
 ```
 
-#### 6b. Confirm
+#### 5b. Confirm
+
+Use AskUserQuestion:
 
 **Question:** "How should I proceed with this fix?"
-
 **Options:**
 - Apply this fix
-- Show me the code first
+- Show me the reference details first
 - Skip this fix
-- Stop here (remaining fixes will not be applied)
+- Stop here (save progress)
 
-#### 6c. Apply Fix
+**If "Show reference":** Read and display the referenced findings file section, then re-ask.
+
+**If "Skip":** Ask for reason, then update TODO.md (see 5d) and continue to next.
+
+**If "Stop":** Go to Step 6 (Summary).
+
+#### 5c. Apply Fix
 
 If user approves:
-1. Make the changes
-2. Show diff of what changed
-3. Run syntax check if applicable (`node --check`, `php -l`, etc.)
+
+1. **Read reference** for full context if needed
+2. **Make changes** using Edit tool
+3. **Show diff** of what changed
+4. **Syntax check** if applicable:
+   - `.js/.ts` → `node --check {file}` or TypeScript check
+   - `.py` → `python -m py_compile {file}`
+   - `.php` → `php -l {file}`
 
 ```markdown
 ### Fix Applied
 
 **Changes made:**
-- `{file}:{lines}` - {description of change}
+- `{file}:{lines}` - {description}
 
 **Syntax check:** {pass/fail}
 
 {Show relevant diff}
 ```
 
-#### 6d. User Review
+#### 5d. Update TODO.md (CRITICAL)
 
-**Question:** "Review complete. What's next?"
+**Immediately after each fix or skip**, update TODO.md to persist progress:
 
-**Options:**
-- Continue to next fix
-- I need to adjust this fix manually first
-- Stop here
-
-If "adjust manually": Pause, let user make changes, then ask when ready to continue.
-
-#### 6e. Repeat
-
-Continue to next fix until:
-- All fixes complete
-- User stops
-- User skips remaining
-
-### 7. Summary
-
-After all fixes (or when stopped):
-
+**For completed fix:**
 ```markdown
-## Review Fix Summary
+# Before:
+- [ ] **Fix** | Critical | security
 
-**Fixes applied:** {n} of {total}
-**Fixes skipped:** {n}
-**Remaining:** {n}
-
-### Applied
-- [x] #{id}: {title} - `{location}`
-- [x] #{id}: {title} - `{location}`
-
-### Skipped
-- [ ] #{id}: {title} - {reason if given}
-
-### Remaining
-- [ ] #{id}: {title}
-
-### Next Steps
-- Review the changes before committing
-- Run tests if applicable
-- Use `/review` again to verify fixes
+# After:
+- [x] **Fixed** | Critical | security
+...
+- **Fixed at:** {ISO timestamp}
 ```
 
-## Rules
+**For skipped fix:**
+```markdown
+# Before:
+- [ ] **Fix** | Low | conventions
 
-### Guidelines
-- Parse findings from conversation context only
-- Analyze dependencies before proposing order
-- Preview each fix before applying
-- Wait for explicit user approval
-- Show diffs after each fix
-- Allow skipping individual fixes
-- Track progress throughout
+# After:
+- [~] **Skipped** | Low | conventions
+...
+- **Reason:** {user-provided reason}
+```
 
-### Avoid
-- Auto-committing any changes
-- Proceeding without user confirmation
-- Applying multiple fixes at once
-- Assuming severity order is optimal
-- Continuing if user says stop
+**Update status line:**
+```markdown
+**Status:** {n+1}/{total} complete
+```
+
+**Append to Progress Log:**
+```markdown
+| {ISO timestamp} | Fixed | {id} | {brief note} |
+```
+
+Also update `{review_dir}/README.md` summary table Fixed column if present.
+
+#### 5e. Continue or Stop
+
+After each fix:
+
+**Question:** "Fix applied. What's next?"
+**Options:**
+- Continue to next fix
+- I need to adjust this manually first
+- Stop here
+
+**If "adjust manually":** Pause and inform user:
+```
+Pausing for manual adjustment. When ready, run `/review-fix` to continue.
+Progress has been saved to TODO.md.
+```
+Then stop.
+
+**If "Stop":** Go to Step 6.
+
+**Otherwise:** Continue to next unchecked item with satisfied dependencies.
+
+### 6. Summary
+
+When complete or stopped:
+
+```markdown
+## Session Complete
+
+**Review:** {review_dir}
+**Session duration:** {start to now}
+
+### This Session
+- Fixes applied: {n}
+- Fixes skipped: {n}
+
+### Overall Progress
+- Total: {completed + skipped}/{total}
+- Remaining: {unchecked count}
+
+### Files Modified
+{list of files changed this session}
+
+### Next Steps
+- Review changes: `git diff`
+- Run tests if applicable
+- Commit when ready: `git add . && git commit`
+- To continue remaining fixes: `/review-fix`
+```
 
 ## Dependency Heuristics
 
-Use these patterns to detect dependencies:
+Use these patterns to detect when fixes should be reordered:
 
-**Structural changes detected by:**
-- "split", "extract", "move", "rename" in recommendation
-- "god class", "single responsibility" in description
-- File/module reorganization suggestions
+**Structural changes (do first):**
+- Keywords: split, extract, move, rename, reorganize
+- Pattern: "god class", "single responsibility"
+- Effect: File/module reorganization
 
-**Interface changes detected by:**
-- "signature", "parameter", "return type" in recommendation
-- "API", "contract", "interface" in description
-- Public method/function changes
+**Interface changes (do second):**
+- Keywords: signature, parameter, return type, API, contract
+- Pattern: Public method/function changes
+- Effect: Calling code must be updated
 
 **Shared code dependencies:**
 - Utils, helpers, shared services mentioned
@@ -255,3 +324,48 @@ Use these patterns to detect dependencies:
 **Data layer dependencies:**
 - Migration/schema changes before application code
 - Model changes before repository/service changes
+
+## Rules
+
+### Do
+- Parse findings from TODO.md file, not conversation history
+- Update TODO.md immediately after each fix (checkpoint)
+- Respect dependency order (don't skip blocked items)
+- Show preview before applying each fix
+- Wait for explicit user approval
+
+### Avoid
+- Auto-committing changes
+- Applying multiple fixes at once
+- Proceeding without confirmation
+- Continuing if user says stop
+- Modifying items out of dependency order
+
+## Edge Cases
+
+### Circular Dependencies
+
+If items have circular dependencies, group them:
+```
+Items {A} and {B} have circular dependencies.
+These should be fixed together. Applying {A} first, then {B}.
+```
+
+### Manual TODO.md Edits
+
+If user has manually checked items or reordered:
+- Trust the checkbox state from file
+- Don't recompute order
+- Warn if dependencies appear violated:
+  ```
+  Note: {B-001} is checked but its dependency {S-001} is not.
+  Proceeding with remaining items as ordered.
+  ```
+
+### Missing Reference Files
+
+If a reference link points to a missing file:
+```
+Reference file not found: {path}
+Showing item details from TODO.md instead.
+```

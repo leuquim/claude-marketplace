@@ -13,10 +13,12 @@ Reviews are stored at workspace root, grouped by branch and timestamp:
 
 ```
 {workspace_root}/.reviews/{branch_name}/{timestamp}/
-├── findings/
-│   ├── {domain}.md      # Raw findings per agent
-│   └── verified.md      # Post-verification findings
-└── REVIEW.md            # Final report
+├── README.md            # Entry point with context + navigation
+├── TODO.md              # Ordered fixes with checkboxes + doc references
+├── REVIEW.md            # Full report
+└── findings/
+    ├── {domain}.md      # Raw findings per agent
+    └── verified.md      # Post-verification findings
 ```
 
 Example: `.reviews/feature-auth/2025-01-15_14-30/`
@@ -176,16 +178,161 @@ Read verified findings and generate final report to `{output_dir}/REVIEW.md`:
 1. {prioritized actions based on findings}
 ```
 
-### 8. Present Results
+### 8. Dependency Analysis
+
+After REVIEW.md is generated, analyze verified findings to determine optimal fix order:
+
+**8a. Parse Verified Findings**
+
+Read `{output_dir}/findings/verified.md` and extract each finding with:
+- Title and severity
+- Location (file:line)
+- Category (security, architecture, etc.)
+- Problem description
+- Recommended action
+
+**8b. Classify Change Types**
+
+For each finding, determine change type based on recommendation keywords:
+
+| Type | Keywords | Examples |
+|------|----------|----------|
+| **structural** | split, extract, move, rename, reorganize, god class | "Split this into separate modules" |
+| **interface** | signature, parameter, return type, API, contract | "Add userId parameter" |
+| **behavioral** | validate, fix, add check, handle, memoize | "Add input validation" |
+
+**8c. Build Dependency Graph**
+
+Create edges based on:
+- **structural → behavioral**: Structural changes in file X must happen before behavioral fixes in file X
+- **interface → behavioral**: Interface changes must precede fixes in calling code
+- **shared → dependent**: Changes to shared utilities before dependent code
+- **parent → child**: Parent component changes before child components (frontend)
+- **schema → app**: Data schema/migration changes before application code
+
+**8d. Topological Sort**
+
+Order findings respecting dependencies:
+1. Respect all dependency edges
+2. Within same level, order by: structural > interface > behavioral
+3. Within same type, order by: higher severity first (tiebreaker)
+
+**8e. Assign IDs**
+
+Assign phase-prefixed IDs:
+- `S-001`, `S-002`: Structural changes
+- `I-001`, `I-002`: Interface changes
+- `B-001`, `B-002`: Behavioral fixes
+
+### 9. Generate Action Documents
+
+Write `{output_dir}/README.md` and `{output_dir}/TODO.md` to enable resumable reviews.
+
+#### README.md Format
+
+```markdown
+# Code Review: {branch}
+
+**Generated:** {timestamp}
+**Scope:** {scope description}
+**Files Reviewed:** {count}
+
+## Navigation
+
+- **[TODO.md](./TODO.md)** - Ordered fixes with checkboxes (track progress here)
+- **[REVIEW.md](./REVIEW.md)** - Full review report
+- **[findings/](./findings/)** - Detailed findings by domain
+
+## Summary
+
+| Severity | Count | Fixed |
+|----------|-------|-------|
+| Critical | {n}   | 0     |
+| High     | {n}   | 0     |
+| Medium   | {n}   | 0     |
+| Low      | {n}   | 0     |
+
+## Detection Agents Used
+
+{list agents with checkmarks for those used}
+
+## Scope Details
+
+### Files Reviewed
+{list of files, one per line}
+
+### Git Context
+Branch: {branch}
+Base: {base_branch if diff-based, otherwise "N/A"}
+
+## How to Resume
+
+Run `/review-fix` to continue from where you left off.
+Progress is tracked in TODO.md checkboxes.
+```
+
+#### TODO.md Format
+
+```markdown
+# Review TODO
+
+**Review:** {timestamp}
+**Branch:** {branch}
+**Status:** 0/{total} complete
+
+---
+
+## Phase 1: Structural Changes
+
+{For each structural finding:}
+
+### {ID}: {Title}
+
+- [ ] **Fix** | {Severity} | {category}
+- **Location:** `{file:line}`
+- **Problem:** {problem description}
+- **Action:** {recommended action}
+- **Blocks:** {list of IDs that depend on this}
+- **Reference:** [findings/{domain}.md#{anchor}](./findings/{domain}.md#{anchor})
+
+---
+
+## Phase 2: Interface Changes
+
+{For each interface finding, same format as above, plus:}
+- **Depends on:** {list of IDs this depends on}
+
+---
+
+## Phase 3: Behavioral Fixes
+
+{For each behavioral finding, same format}
+
+---
+
+## Progress Log
+
+| Time | Action | Item | Notes |
+|------|--------|------|-------|
+| {timestamp} | Started | - | Review generated |
+```
+
+If no findings in a phase, omit that phase section.
+
+### 10. Present Results
 
 - Show summary table to user
 - Highlight critical/high severity issues
-- Display path to full report: `{output_dir}/REVIEW.md`
-- Offer to run `/review-fix` if actionable issues found
+- Display paths to output files:
+  - `{output_dir}/README.md` - entry point
+  - `{output_dir}/TODO.md` - actionable checklist
+  - `{output_dir}/REVIEW.md` - full report
+- State: "Run `/review-fix` to work through fixes, or check off items in TODO.md manually"
 
 ## Rules
 
 - Complete all user questions (steps 1-4) before launching any agents
 - Launch detection agents in parallel for efficiency
 - Run verification only after all detection completes
+- Generate README.md and TODO.md after verification and REVIEW.md synthesis
 - Present synthesized results, not raw agent output

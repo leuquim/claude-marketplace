@@ -1,6 +1,6 @@
 {
   "name": "code-review",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Multi-agent code review system with detection and verification layers. Reduces false positives through lifecycle analysis, scope boundary checks, and evidence-based validation.",
   "author": {
     "name": "leuquim"
