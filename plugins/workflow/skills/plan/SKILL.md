@@ -75,7 +75,6 @@ Use this exact template structure:
 - Mark each task done immediately after completing: `- [x]`
 - Do not skip ahead unless explicitly approved
 - Each phase should be verifiable before moving to next
-- Commit after completing each phase
 
 ---
 
