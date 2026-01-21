@@ -91,7 +91,7 @@ For the chosen approach, build the plan phase by phase:
 
 **Phase design principles:**
 - Each phase produces working (if incomplete) code
-- Order phases to enable incremental testing
+- Order phases to enable incremental verification
 - First phase: foundation/scaffolding
 - Middle phases: core functionality
 - Final phase: polish, edge cases, cleanup
@@ -147,7 +147,7 @@ For the chosen approach, build the plan phase by phase:
 - Complete tasks in order (dependencies matter)
 - Mark each task done immediately after completing: `- [x]`
 - Do not skip ahead unless explicitly approved
-- Each phase should be testable before moving to next
+- Each phase should be verifiable before moving to next
 - Commit after completing each phase
 
 ---
@@ -182,7 +182,6 @@ For the chosen approach, build the plan phase by phase:
 ## Final Checklist
 
 - [ ] All acceptance criteria from definition met
-- [ ] Tests passing
 - [ ] No regressions introduced
 ```
 

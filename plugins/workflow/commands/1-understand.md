@@ -49,7 +49,7 @@ For Explore agent:
 
 For Vector-research agent:
 - "Search for implementations related to [user's stated intent]"
-- Focus on: similar features, related utilities, relevant tests
+- Focus on: similar features, related utilities
 
 For Repo-analyst agent:
 - "Search documentation and team learnings for [user's stated intent]"

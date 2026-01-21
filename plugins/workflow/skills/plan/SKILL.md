@@ -74,7 +74,7 @@ Use this exact template structure:
 - Complete tasks in order (dependencies matter)
 - Mark each task done immediately after completing: `- [x]`
 - Do not skip ahead unless explicitly approved
-- Each phase should be testable before moving to next
+- Each phase should be verifiable before moving to next
 - Commit after completing each phase
 
 ---
@@ -116,7 +116,6 @@ Use this exact template structure:
 ## Final Checklist
 
 - [ ] All acceptance criteria from definition met
-- [ ] Tests passing
 - [ ] No regressions introduced
 ```
 
@@ -125,7 +124,7 @@ Use this exact template structure:
 ### Phase Design
 
 - Each phase should produce working (if incomplete) code
-- Order phases to enable incremental testing
+- Order phases to enable incremental verification
 - First phase: foundation/scaffolding
 - Middle phases: core functionality
 - Final phase: polish, edge cases, cleanup
@@ -142,7 +141,7 @@ Use this exact template structure:
 Optimize for:
 1. Dependencies (what must exist first)
 2. Risk (tackle unknowns early)
-3. Testability (enable verification as you go)
+3. Verifiability (enable verification as you go)
 4. Momentum (quick wins build confidence)
 
 ### Good Task Examples
@@ -167,7 +166,7 @@ Optimize for:
 Before finalizing plan, verify:
 - [ ] All files from research are addressed
 - [ ] Phases are ordered by dependencies
-- [ ] Each phase has a testable checkpoint
+- [ ] Each phase has a verifiable checkpoint
 - [ ] Tasks reference specific files/modules
 - [ ] No tasks outside defined scope
 - [ ] Acceptance criteria covered by final checklist
