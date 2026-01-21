@@ -22,6 +22,8 @@ Transform vague requests into well-defined feature specifications through intera
 
 > {One-line summary}
 
+**Branch:** `feature/{slug}`
+
 ## Problem
 
 {What problem does this solve? Why does it matter?}

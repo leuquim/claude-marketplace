@@ -31,13 +31,20 @@ Check for project-specific agents at `{agents_dir}/*.md`. If found, load them to
 
 Find the TODO.md for the current work item.
 
-### 2. Find Current Phase
+### 2. Verify Branch
+
+Read `definition.md` and extract the **Branch** field. Check current git branch:
+- If on correct branch: proceed
+- If branch doesn't exist: create it with `git checkout -b {branch}`
+- If on wrong branch: ask user if they want to switch
+
+### 3. Find Current Phase
 
 Read TODO.md and find the first phase with incomplete tasks (`- [ ]`).
 
 If all phases complete, proceed to "Work Complete" section.
 
-### 3. Execute Phase
+### 4. Execute Phase
 
 1. **Announce**: Tell user which phase is starting
 2. **Read context**: Review definition, research, and plan for relevant details
@@ -49,13 +56,13 @@ If all phases complete, proceed to "Work Complete" section.
 
 See `work` skill for chunked review mode details.
 
-### 4. Run Quality Checks
+### 5. Run Quality Checks
 
 Run lightweight quality checks after completing the phase.
 
 See `work` skill for auto-detection and language-specific checks.
 
-### 5. Pause for Review
+### 6. Pause for Review
 
 Present phase completion summary. See `work` skill for template.
 
@@ -63,7 +70,7 @@ Ask: "Ready to continue to next phase, or want to review first?"
 
 Do NOT auto-proceed to next phase.
 
-### 6. Work Complete
+### 7. Work Complete
 
 When all phases complete:
 
