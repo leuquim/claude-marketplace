@@ -7,6 +7,10 @@ description: Create implementation plan from definition and research artifacts. 
 
 Transform definition and research into an actionable implementation plan.
 
+## Purpose
+
+Provides templates, guidelines, and quality criteria for creating implementation plans through interactive refinement.
+
 ## Path Configuration
 
 Paths are resolved via the `settings` skill. See @config/paths.md for defaults.
@@ -16,6 +20,53 @@ Paths are resolved via the `settings` skill. See @config/paths.md for defaults.
 Must have in `{work_dir}/{slug}/`:
 - `definition.md` - Feature goals, scope, constraints
 - `research.md` - Codebase findings, affected files, patterns
+
+## Gap Indicators
+
+When to dispatch an Explore agent before planning:
+- Research doesn't list specific files to modify
+- Patterns section is vague or missing
+- Need to understand dependencies better
+- Similar implementations weren't found
+
+## Approach Proposal Template
+
+```
+Based on the definition and what I found in the codebase, I see these approaches:
+
+A) [Approach name] - [Brief description]
+   Pros: [advantages]
+   Cons: [disadvantages]
+
+B) [Approach name] - [Brief description]
+   Pros: [advantages]
+   Cons: [disadvantages]
+
+C) [Approach name] - [Brief description]
+   Pros: [advantages]
+   Cons: [disadvantages]
+
+I'd recommend [X] because [reasoning].
+
+Which direction?
+```
+
+## Phase Proposal Template
+
+```
+Phase {N} would be: [Phase name]
+
+This phase accomplishes: [goal]
+
+Tasks:
+- [Task 1]
+- [Task 2]
+- [Task 3]
+
+Checkpoint: [How to verify completion]
+
+Does this make sense as phase {N}?
+```
 
 ## Output
 
