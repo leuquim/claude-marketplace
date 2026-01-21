@@ -64,25 +64,31 @@ Execute the edit. Claude Code shows the diff in the UI.
 
 **Step 2: Explain (after diff is visible)**
 
-```
-Chunk {X}/{Y}: {Chunk title}
+The diff speaks for itself - don't describe what the reviewer can already see. Instead, add context that helps them evaluate the change.
 
-This adds/changes/removes {brief description} that:
-- {Bullet 1 - what changed}
-- {Bullet 2 - why it changed}
-- {Bullet 3 - how it works}
+```
+Chunk {X}/{Y}: {Brief title}
+
+{Context that adds value - scaled to complexity}
 
 Next: {Next chunk description}
 
 Approve / Questions / Changes?
 ```
 
-Format:
-- Chunk progress (X/Y)
-- Brief title
-- 2-4 bullet explanation of what changed and why
-- What's coming next
-- Prompt for response
+**What adds value:**
+- Non-obvious implications or side effects
+- Gotchas, edge cases, or assumptions being made
+- Why this approach vs alternatives (when relevant)
+- Impact on other parts of the codebase
+- Anything the reviewer should verify or watch for
+
+**Scale detail to complexity:**
+- Trivial change (rename, simple fix): One sentence is fine
+- Standard change: Brief context on intent or implications
+- Complex change: Call out tradeoffs, gotchas, things to verify
+
+Trust your judgment. You know the feature, the plan, and how this chunk fits in.
 
 **Step 3: Handle response**
 
@@ -187,8 +193,21 @@ Only run checks that exist in the project. Skip if none found.
 
 **Issues found:** {None / list issues}
 
-Ready for next phase?
+How would you like to proceed?
+1. Stage + commit
+2. Stage only
+3. Continue to next phase
+4. [Or provide feedback]
 ```
+
+**Handle phase completion response:**
+
+| Response | Action |
+|----------|--------|
+| Stage + commit | `git add` phase files, create commit with phase summary, continue |
+| Stage only | `git add` phase files, continue to next phase |
+| Continue | Proceed to next phase without git actions |
+| Feedback | Address feedback, then re-prompt with options |
 
 ### Work Complete Template
 
