@@ -1,7 +1,7 @@
 {
   "name": "workflow",
-  "version": "2.0.0",
-  "description": "Progressive development workflow: understand (clarify + explore), plan (interactive approach building), work (execute with isolation)",
+  "version": "2.1.0",
+  "description": "Progressive development workflow: understand (clarify + explore), plan (interactive approach building), work (chunked review + isolation)",
   "author": { "name": "leuquim" },
   "license": "MIT",
   "keywords": ["workflow", "development", "planning", "progressive-refinement", "agents"]
