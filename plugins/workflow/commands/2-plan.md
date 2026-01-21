@@ -27,6 +27,14 @@ Read definition.md and research.md for the work item.
 
 If significant gaps are identified (e.g., affected files unclear, patterns not documented), use Task tool to explore further before proceeding.
 
+**When to use Task tool:**
+- Research doesn't list specific files to modify
+- Patterns section is vague or missing
+- Need to understand dependencies better
+- Similar implementations weren't found
+
+Dispatch an Explore agent with specific questions about the gap.
+
 ### Step 2: Propose Approaches
 
 Based on definition goals and research findings, propose 2-3 implementation approaches:
@@ -190,7 +198,7 @@ Present:
 - Number of phases
 - High-level phase overview
 - Any risks identified
-- Suggest next step: `/workflow:3:work`
+- Suggest next step: `/workflow:3:work` (executes in isolated git worktree)
 
 ## Rules
 
