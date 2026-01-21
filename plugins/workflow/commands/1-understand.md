@@ -1,5 +1,5 @@
 ---
-description: Understand a feature through progressive refinement. Clarifies intent, explores codebase, asks informed questions.
+description: Progressive feature understanding through intent clarification and codebase exploration.
 allowed-tools: Read, Write, Glob, Grep, Task, AskUserQuestion
 ---
 
@@ -40,6 +40,20 @@ Use the Task tool to dispatch THREE agents simultaneously:
 3. **Repo-analyst agent** — Search documentation, team learnings, existing knowledge
 
 Synthesize findings into internal context (not shown to user yet).
+
+**Agent prompts should include:**
+
+For Explore agent:
+- "Find files, patterns, and architecture related to [user's stated intent]"
+- Focus on: affected modules, existing similar features, code organization
+
+For Vector-research agent:
+- "Search for implementations related to [user's stated intent]"
+- Focus on: similar features, related utilities, relevant tests
+
+For Repo-analyst agent:
+- "Search documentation and team learnings for [user's stated intent]"
+- Focus on: .docs/learnings/, README files, architectural decisions
 
 ### Step 3: Present Key Findings
 
@@ -91,6 +105,15 @@ Create a date-prefixed kebab-case slug:
 - Example: `2026_01_21_data-export`
 
 Check for existing work items with Glob `{work_dir}/*/definition.md`.
+
+## Quality Criteria
+
+Before writing artifacts, verify:
+- [ ] Problem is clearly stated (not vague)
+- [ ] Goals are specific and measurable
+- [ ] Scope boundaries are explicit (non-goals defined)
+- [ ] No implementation details in definition (that's for planning)
+- [ ] Research captures relevant codebase context
 
 #### 5b. Draft Definition
 
@@ -183,15 +206,6 @@ Write both artifacts to `{work_dir}/{slug}/`:
 - `research.md`
 
 Confirm completion and suggest next step: `/workflow:2:plan`
-
-## Quality Criteria
-
-Before writing artifacts, verify:
-- [ ] Problem is clearly stated (not vague)
-- [ ] Goals are specific and measurable
-- [ ] Scope boundaries are explicit (non-goals defined)
-- [ ] No implementation details in definition (that's for planning)
-- [ ] Research captures relevant codebase context
 
 ## Rules
 
