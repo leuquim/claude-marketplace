@@ -88,10 +88,14 @@ Format:
 
 | Response | Action |
 |----------|--------|
-| Approve (ok, next, approve, looks good) | Proceed to next chunk |
+| Approve (ok, next, approve, looks good) | Stage chunk files, proceed to next chunk |
 | Questions | Answer, then re-prompt for approval |
 | Changes requested | Keep diff visible, make additional edits, show new diff, re-prompt |
 | "Do the rest" | Switch to execute-all mode for remaining chunks |
+
+**On approval: Stage chunk files**
+
+After user approves a chunk, immediately `git add` the files modified in that chunk. This moves approved changes to staged, keeping only the current/next chunk's changes visible as unstaged in the user's IDE or Git UI.
 
 ### Handling Questions
 
