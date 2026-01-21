@@ -1,8 +1,8 @@
 {
   "name": "workflow",
-  "version": "1.1.0",
-  "description": "Complete development workflow: define requirements, research codebase, plan implementation, execute with isolation, review with specialized agents, capture learnings",
+  "version": "2.0.0",
+  "description": "Progressive development workflow: understand (clarify + explore), plan (interactive approach building), work (execute with isolation)",
   "author": { "name": "leuquim" },
   "license": "MIT",
-  "keywords": ["workflow", "development", "planning", "review", "agents"]
+  "keywords": ["workflow", "development", "planning", "progressive-refinement", "agents"]
 }
