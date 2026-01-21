@@ -19,7 +19,7 @@ This command requires an active work item with:
 - `{work_dir}/{slug}/plan.md`
 - `{work_dir}/{slug}/TODO.md`
 
-If any are missing, tell the user which step to run first (`/workflow:1:define`, `/workflow:2:research`, or `/workflow:3:plan`).
+If any are missing, tell the user which step to run first (`/workflow:1:understand` or `/workflow:2:plan`).
 
 ## Project Agents
 
