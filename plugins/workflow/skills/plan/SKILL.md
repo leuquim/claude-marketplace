@@ -1,6 +1,6 @@
 ---
 name: plan
-description: Create implementation plan from definition and research artifacts. Outputs plan.md (approach) and TODO.md (ordered task checklist). Use after /workflow:1:define and /workflow:2:research are complete.
+description: Create implementation plan from definition and research artifacts. Outputs plan.md (approach) and TODO.md (ordered task checklist). Use after /workflow:1:understand is complete.
 ---
 
 # Plan Skill

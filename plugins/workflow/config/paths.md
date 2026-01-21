@@ -13,10 +13,10 @@
 
 | Artifact | Path | Created By |
 |----------|------|------------|
-| Definition | `{work_dir}/{slug}/definition.md` | `/workflow:1:define` |
-| Research | `{work_dir}/{slug}/research.md` | `/workflow:2:research` |
-| Plan | `{work_dir}/{slug}/plan.md` | `/workflow:3:plan` |
-| TODO | `{work_dir}/{slug}/TODO.md` | `/workflow:3:plan` |
+| Definition | `{work_dir}/{slug}/definition.md` | `/workflow:1:understand` |
+| Research | `{work_dir}/{slug}/research.md` | `/workflow:1:understand` |
+| Plan | `{work_dir}/{slug}/plan.md` | `/workflow:2:plan` |
+| TODO | `{work_dir}/{slug}/TODO.md` | `/workflow:2:plan` |
 
 ## Slug Format
 
