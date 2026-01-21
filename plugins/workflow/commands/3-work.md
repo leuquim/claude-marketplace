@@ -1,5 +1,5 @@
 ---
-description: Execute implementation plan one phase at a time. Uses git worktree for isolation.
+description: Execute implementation plan one phase at a time with chunked review.
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 ---
 
@@ -40,33 +40,13 @@ If found, load them to guide implementation:
 
 Find the TODO.md for the current work item.
 
-### 2. Setup Worktree
-
-Use the `git-worktree` skill:
-
-1. Check if worktree exists for the slug:
-   ```bash
-   bash skills/git-worktree/scripts/worktree-manager.sh check {slug}
-   ```
-
-2. If `NOT_FOUND`, ask user to confirm creation using AskUserQuestion:
-   - Worktree name (suggest: `{slug}`)
-   - Base branch (suggest: default branch)
-
-3. Create or reuse worktree:
-   ```bash
-   bash skills/git-worktree/scripts/worktree-manager.sh create {name} {base-branch}
-   ```
-
-4. Note the worktree path for all subsequent operations.
-
-### 3. Find Current Phase
+### 2. Find Current Phase
 
 Read TODO.md and find the first phase with incomplete tasks (has `- [ ]`).
 
 If all phases complete, congratulate user and suggest cleanup.
 
-### 4. Execute Phase
+### 3. Execute Phase
 
 For the current phase:
 
@@ -203,7 +183,7 @@ If user says "do the rest", "finish it", or "no more reviews":
 
 ---
 
-### 5. Run Quality Checks
+### 4. Run Quality Checks
 
 After completing the phase, run lightweight quality checks:
 
@@ -220,7 +200,7 @@ Only run checks that exist in the project. Skip if none found.
 
 Report any issues found.
 
-### 6. Pause for Review
+### 5. Pause for Review
 
 After phase completion + quality checks:
 
@@ -233,7 +213,6 @@ Do NOT auto-proceed to next phase.
 ## Rules
 
 ### Guidelines
-- Work in the worktree context
 - Complete tasks in order
 - Mark tasks done immediately after completing
 - Run quality checks after each phase
