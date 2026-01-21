@@ -44,7 +44,7 @@ Find the TODO.md for the current work item.
 
 Read TODO.md and find the first phase with incomplete tasks (has `- [ ]`).
 
-If all phases complete, congratulate user and suggest cleanup.
+If all phases complete, proceed to "Work Complete" section.
 
 ### 3. Execute Phase
 
@@ -209,6 +209,19 @@ After phase completion + quality checks:
 3. Ask user: "Ready to continue to next phase, or want to review first?"
 
 Do NOT auto-proceed to next phase.
+
+### 6. Work Complete
+
+When all phases in TODO.md are marked complete:
+
+1. **Summarize**: List all completed phases and key changes made
+2. **Verify**: Confirm all acceptance criteria from definition.md are met
+3. **Present options**:
+   - "Ready to commit these changes?"
+   - "Want to review any phase again?"
+   - "Need to make additional changes?"
+
+Do NOT automatically commit, merge, or create PRs. Wait for user direction.
 
 ## Rules
 
