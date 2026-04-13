@@ -1,0 +1,10 @@
+{
+  "name": "review",
+  "version": "0.1.0",
+  "description": "Lead-developer code review on the current branch. Parallel specialists, verification with user-provided scripts, severity-graded output, re-review delta tracking.",
+  "author": {
+    "name": "leuquim"
+  },
+  "license": "MIT",
+  "keywords": ["code-review", "pull-request", "lead-review", "mentor", "specialists"]
+}

@@ -24,6 +24,11 @@
       "name": "rules-curation",
       "description": "Autonomous curation of Claude Code memory rules in .claude/rules/ - creating, revising, consolidating, and removing rules as understanding evolves.",
       "source": "./plugins/rules-curation"
+    },
+    {
+      "name": "review",
+      "description": "Lead-dev code review: parallel specialists, verification, severity-graded output, re-review delta.",
+      "source": "./plugins/review"
     }
   ]
 }
