@@ -1,21 +1,76 @@
 ---
 name: plan
-description: Create implementation plan from definition and research artifacts. Outputs plan.md (approach) and TODO.md (ordered task checklist). Use after /define and /research are complete.
+description: Create implementation plan from definition and research artifacts. Outputs plan.md (approach) and TODO.md (ordered task checklist). Use after /workflow:1:understand is complete.
 ---
 
 # Plan Skill
 
 Transform definition and research into an actionable implementation plan.
 
+## Purpose
+
+Provides templates, guidelines, and quality criteria for creating implementation plans through interactive refinement.
+
+## Path Configuration
+
+Paths are resolved via the `settings` skill. See @config/paths.md for defaults.
+
 ## Input Requirements
 
-Must have in `.docs/work/{yyyy_mm_dd_slug}/`:
+Must have in `{work_dir}/{slug}/`:
 - `definition.md` - Feature goals, scope, constraints
 - `research.md` - Codebase findings, affected files, patterns
 
+## Gap Indicators
+
+When to dispatch an Explore agent before planning:
+- Research doesn't list specific files to modify
+- Patterns section is vague or missing
+- Need to understand dependencies better
+- Similar implementations weren't found
+
+## Approach Proposal Template
+
+```
+Based on the definition and what I found in the codebase, I see these approaches:
+
+A) [Approach name] - [Brief description]
+   Pros: [advantages]
+   Cons: [disadvantages]
+
+B) [Approach name] - [Brief description]
+   Pros: [advantages]
+   Cons: [disadvantages]
+
+C) [Approach name] - [Brief description]
+   Pros: [advantages]
+   Cons: [disadvantages]
+
+I'd recommend [X] because [reasoning].
+
+Which direction?
+```
+
+## Phase Proposal Template
+
+```
+Phase {N} would be: [Phase name]
+
+This phase accomplishes: [goal]
+
+Tasks:
+- [Task 1]
+- [Task 2]
+- [Task 3]
+
+Checkpoint: [How to verify completion]
+
+Does this make sense as phase {N}?
+```
+
 ## Output
 
-Create two files in `.docs/work/{yyyy_mm_dd_slug}/`:
+Create two files in `{work_dir}/{slug}/`:
 
 ### 1. `plan.md` - Implementation Approach
 
@@ -70,8 +125,7 @@ Use this exact template structure:
 - Complete tasks in order (dependencies matter)
 - Mark each task done immediately after completing: `- [x]`
 - Do not skip ahead unless explicitly approved
-- Each phase should be testable before moving to next
-- Commit after completing each phase
+- Each phase should be verifiable before moving to next
 
 ---
 
@@ -112,7 +166,6 @@ Use this exact template structure:
 ## Final Checklist
 
 - [ ] All acceptance criteria from definition met
-- [ ] Tests passing
 - [ ] No regressions introduced
 ```
 
@@ -121,7 +174,7 @@ Use this exact template structure:
 ### Phase Design
 
 - Each phase should produce working (if incomplete) code
-- Order phases to enable incremental testing
+- Order phases to enable incremental verification
 - First phase: foundation/scaffolding
 - Middle phases: core functionality
 - Final phase: polish, edge cases, cleanup
@@ -138,7 +191,7 @@ Use this exact template structure:
 Optimize for:
 1. Dependencies (what must exist first)
 2. Risk (tackle unknowns early)
-3. Testability (enable verification as you go)
+3. Verifiability (enable verification as you go)
 4. Momentum (quick wins build confidence)
 
 ### Good Task Examples
@@ -163,7 +216,7 @@ Optimize for:
 Before finalizing plan, verify:
 - [ ] All files from research are addressed
 - [ ] Phases are ordered by dependencies
-- [ ] Each phase has a testable checkpoint
+- [ ] Each phase has a verifiable checkpoint
 - [ ] Tasks reference specific files/modules
 - [ ] No tasks outside defined scope
 - [ ] Acceptance criteria covered by final checklist
